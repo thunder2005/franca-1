@@ -13,3 +13,4 @@ add_compile_options(-Wall -Wextra -Werror -Wconversion -pedantic)
 
 enable_testing()
 add_subdirectory(francac)
+add_subdirectory(lib)

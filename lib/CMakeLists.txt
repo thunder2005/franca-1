@@ -5,12 +5,23 @@
  ###############################################################################
 
 set(SOURCES
-    main.cc
+    src/parser.cc
+    src/parser_impl.cc
 )
 
-add_executable(francac
+set(HEADERS
+    src/parser_impl.hh
+)
+
+set(PUBLIC_HEADERS
+    include/franca/parser.hh
+    include/franca/logger.hh
+)
+
+add_library(franca SHARED
     ${SOURCES}
     ${HEADERS}
+    ${PUBLIC_HEADERS}
 )
 
-target_link_libraries(francac franca)
+target_include_directories(franca PRIVATE src PUBLIC include)
