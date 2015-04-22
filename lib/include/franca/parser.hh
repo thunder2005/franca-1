@@ -16,7 +16,7 @@ class logger_t;
 class parser_impl_t;
 
 /*!
- * \brief A Franca IDL parser.
+ * \brief Franca IDL parser.
  *
  * This class implements a Franca IDL parser.
  */
@@ -32,7 +32,7 @@ public:
     ~parser_t();
 
 public:
-    void set_logger( const std::shared_ptr<logger_t> &logger );
+    void set_logger( std::unique_ptr<logger_t> &logger );
 
 private:
     std::unique_ptr<parser_impl_t> m_impl;

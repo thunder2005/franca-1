@@ -11,6 +11,7 @@ set(SOURCES
 
 set(HEADERS
     src/parser_impl.hh
+    src/log.hh
 )
 
 set(PUBLIC_HEADERS
