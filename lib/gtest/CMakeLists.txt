@@ -4,28 +4,13 @@
  #                                                                            #
  ###############################################################################
 
-add_subdirectory(gtest)
+find_package(GTest REQUIRED)
 
-set(SOURCES
-    src/parser.cc
-    src/parser_impl.cc
+add_executable(gtest_franca
+    tst_common.cc
 )
 
-set(HEADERS
-    src/parser_impl.hh
-    src/log.hh
-)
+target_include_directories(gtest_franca PRIVATE ${GTEST_INCLUDE_DIR})# ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(gtest_franca franca ${GTEST_LIBRARY} ${GTEST_MAIN_LIBRARY})
 
-set(PUBLIC_HEADERS
-    include/franca/parser.hh
-    include/franca/logger.hh
-    include/franca/input_provider.hh
-)
-
-add_library(franca SHARED
-    ${SOURCES}
-    ${HEADERS}
-    ${PUBLIC_HEADERS}
-)
-
-target_include_directories(franca PRIVATE src PUBLIC include)
+add_test(gtest_franca gtest_franca)
