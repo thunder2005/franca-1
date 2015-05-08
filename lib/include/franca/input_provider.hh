@@ -8,6 +8,7 @@
 
 // std includes:
 #include <string>
+#include <iosfwd>
 
 namespace franca {
 
@@ -18,11 +19,11 @@ namespace franca {
  * specific input backends, e.g. an input from file, should derive from this
  * class. An active backend is set via \ref franca::parser_t::set_input_provider().
  */
-class input_provider
+class input_provider_t
 {
 public:
     //! Virtual destructor.
-    virtual ~input_provider() = default;
+    virtual ~input_provider_t() = default;
 
 public:
     /*!
@@ -33,23 +34,15 @@ public:
      * debugging purposes and output. For instance, for a file input backend it
      * might return a filename.
      */
-    std::string name() const noexcept = 0;
+    virtual std::string name() const noexcept = 0;
 
     /*!
-     * \brief Read a next line.
-     * \return A next line of the input.
+     * \brief Get an associated input stream.
+     * \return An input stream.
      *
-     * This methods reads a next line of the input. The line should not contain
-     * EOL characters. In case of EOF, an empty string should be returned. In
-     * event of I/O error, exceptions should be thrown.
+     * This method should return an input stream associated with this provider.
      */
-    std::string next_line() = 0;
-
-    /*!
-     * \brief Check if EOF condition is met.
-     * \return True, if end of file is reached.
-     */
-    bool is_eof() const noexcept = 0;
+    virtual std::istream &stream() noexcept = 0;
 };
 
 } // namespace franca

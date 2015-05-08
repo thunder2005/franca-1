@@ -23,9 +23,9 @@ parser_impl_t::~parser_impl_t()
 {
 }
 
-void parser_impl_t::set_logger( std::unique_ptr<logger_t> &logger )
+void parser_impl_t::set_logger(const std::shared_ptr<logger_t> &logger )
 {
-    m_logger = std::move(logger);
+    m_logger = logger;
     debug() << "Logger is set.";
 }
 

@@ -11,11 +11,30 @@
 
 // franca includes:
 #include <franca/parser.hh>
+#include <franca/logger.hh>
+#include <franca/input_provider.hh>
+
+// std includes:
+#include <sstream>
 
 namespace franca {
 
-class test_logger_t;
-class test_input_provider_t;
+class test_logger_t final: public franca::logger_t
+{
+public:
+    /* virtual */ void print( std::ostringstream &stream ) noexcept override;
+};
+
+class test_input_provider_t final: public franca::input_provider_t
+{
+public:
+    test_input_provider_t( const char *fidl );
+    /* virtual */ std::string name() const noexcept override;
+    /* virtual */ std::istream &stream() noexcept override;
+
+private:
+    std::istringstream m_stream;
+};
 
 /*!
  * \brief Base class for franca unit-tests.

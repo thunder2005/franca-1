@@ -21,11 +21,11 @@ public:
     ~parser_impl_t();
 
 public:
-    void set_logger( std::unique_ptr<logger_t> &logger );
+    void set_logger( const std::shared_ptr<logger_t> &logger );
     log_t debug();
 
 private:
-    std::unique_ptr<logger_t> m_logger;
+    std::shared_ptr<logger_t> m_logger;
 };
 
 } // namespace franca

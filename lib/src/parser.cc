@@ -21,7 +21,16 @@ parser_t::~parser_t()
 {
 }
 
-void parser_t::set_logger( std::unique_ptr<logger_t> &logger )
+void parser_t::set_logger(const std::shared_ptr<logger_t> &logger )
 {
     m_impl->set_logger(logger);
+}
+
+void parser_t::set_input_provider( const std::shared_ptr<input_provider_t> & /* input */ )
+{
+}
+
+bool parser_t::parse()
+{
+    return true;
 }

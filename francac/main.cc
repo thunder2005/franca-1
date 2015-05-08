@@ -22,10 +22,8 @@ class stdout_logger_t final: public franca::logger_t
 
 int main()
 {
-    std::unique_ptr<franca::logger_t> logger(new stdout_logger_t);
-
     franca::parser_t parser;
-    parser.set_logger(logger);
+    parser.set_logger(std::make_shared<stdout_logger_t>());
 
     return 0;
 }

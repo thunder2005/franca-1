@@ -13,6 +13,7 @@
 namespace franca {
 
 class logger_t;
+class input_provider_t;
 class parser_impl_t;
 
 /*!
@@ -32,7 +33,25 @@ public:
     ~parser_t();
 
 public:
-    void set_logger( std::unique_ptr<logger_t> &logger );
+    /*!
+     * \brief Set a logger backend.
+     * \param logger Logger.
+     * \sa franca::logger_t
+     */
+    void set_logger( const std::shared_ptr<logger_t> &logger );
+
+    /*!
+     * \brief Set an input provider.
+     * \param input Input provider.
+     * \sa franca::input_provider_t
+     */
+    void set_input_provider( const std::shared_ptr<input_provider_t> &input );
+
+    /*!
+     * \brief Parse an input.
+     * \return True, if the pasre was successful.
+     */
+    bool parse();
 
 private:
     std::unique_ptr<parser_impl_t> m_impl;
