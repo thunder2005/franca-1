@@ -9,6 +9,7 @@
 
 // local includes:
 #include "log.hh"
+#include "stm.hh"
 
 // franca includes:
 #include "franca/logger.hh"
@@ -20,7 +21,8 @@
 using namespace franca;
 
 parser_impl_t::parser_impl_t()
-    : m_line_nr(0)
+    : m_stm(new stm_t)
+    , m_line_nr(0)
     , m_char_nr(0)
 {
 }
@@ -41,13 +43,12 @@ void parser_impl_t::set_input_provider( const std::shared_ptr<input_provider_t> 
     m_input = input;
 }
 
-bool parser_impl_t::parse()
+bool parser_impl_t::parse() noexcept
 {
     assert(m_line_nr == 0);
     debug() << "Executing parse()";
 
     auto &input = m_input->stream();
-
     std::string line;
 
     try {
@@ -56,11 +57,14 @@ bool parser_impl_t::parse()
             std::getline(input, line);
             if ( input.fail() && !line.empty() )
                 throw /* I/O error */ 0;
-            debug() << "Line:" << log_quote_t() << line;
+            process_line(line.c_str());
         } while ( !input.eof() );
 
         if ( !line.empty() )
             warn() << "Input does not end with a newline";
+
+        /* check of stm is in a state, which allows eof */
+        m_stm->handle_eof();
 
     } catch ( ... ) {
         error() << "Error";
@@ -68,6 +72,25 @@ bool parser_impl_t::parse()
     }
 
     return true;
+}
+
+void parser_impl_t::process_line( const char *line )
+{
+    assert(line != nullptr);
+    m_char_nr = 1;
+
+    debug() << "Line:" << log_quote_t() << line;
+
+    while ( *line != '\0' ) {
+        auto handled_chars = m_stm->handle_token(line);
+
+        if ( handled_chars == 0 ) {
+            throw -1; // todo
+        }
+
+        m_char_nr += handled_chars;
+        line += handled_chars;
+    }
 }
 
 log_t parser_impl_t::debug()

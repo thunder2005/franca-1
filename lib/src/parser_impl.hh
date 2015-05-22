@@ -14,6 +14,7 @@ namespace franca {
 class logger_t;
 class log_t;
 class input_provider_t;
+class stm_t;
 
 class parser_impl_t final
 {
@@ -28,7 +29,7 @@ public:
 public:
     void set_logger( const std::shared_ptr<logger_t> &logger );
     void set_input_provider( const std::shared_ptr<input_provider_t> &input );
-    bool parse();
+    bool parse() noexcept;
 
 public:
     log_t debug();
@@ -37,11 +38,13 @@ public:
     log_t error();
 
 private:
+    void process_line( const char *line );
     log_t log();
 
 private:
     std::shared_ptr<logger_t> m_logger;
     std::shared_ptr<input_provider_t> m_input;
+    std::unique_ptr<stm_t> m_stm; //!< Parsing state machine.
     std::size_t m_line_nr; //!< Line number.
     std::size_t m_char_nr; //!< Character number.
 };

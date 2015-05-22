@@ -5,33 +5,15 @@
  ******************************************************************************/
 
 // self-include:
-#include "franca/parser.hh"
-
-// franca includes:
-#include "parser_impl.hh"
+#include "stm.hh"
 
 using namespace franca;
 
-parser_t::parser_t()
-    : m_impl(new parser_impl_t)
+std::size_t stm_t::handle_token( const char *token )
 {
+    return *token;
 }
 
-parser_t::~parser_t()
+void stm_t::handle_eof()
 {
-}
-
-void parser_t::set_logger(const std::shared_ptr<logger_t> &logger )
-{
-    m_impl->set_logger(logger);
-}
-
-void parser_t::set_input_provider( const std::shared_ptr<input_provider_t> &input )
-{
-    m_impl->set_input_provider(input);
-}
-
-bool parser_t::parse() noexcept
-{
-    return m_impl->parse();
 }

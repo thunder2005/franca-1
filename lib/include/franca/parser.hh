@@ -51,7 +51,7 @@ public:
      * \brief Parse an input.
      * \return True, if the pasre was successful.
      */
-    bool parse();
+    bool parse() noexcept;
 
 private:
     std::unique_ptr<parser_impl_t> m_impl;

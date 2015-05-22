@@ -9,11 +9,13 @@ add_subdirectory(gtest)
 set(SOURCES
     src/parser.cc
     src/parser_impl.cc
+    src/stm.cc
 )
 
 set(HEADERS
     src/parser_impl.hh
     src/log.hh
+    src/stm.hh
 )
 
 set(PUBLIC_HEADERS
