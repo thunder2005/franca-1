@@ -37,9 +37,13 @@ public:
     log_t error();
 
 private:
+    log_t log();
+
+private:
     std::shared_ptr<logger_t> m_logger;
     std::shared_ptr<input_provider_t> m_input;
-    std::size_t m_line_nr;
+    std::size_t m_line_nr; //!< Line number.
+    std::size_t m_char_nr; //!< Character number.
 };
 
 } // namespace franca
