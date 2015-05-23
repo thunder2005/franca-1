@@ -13,6 +13,7 @@ set(SOURCES
 )
 
 set(HEADERS
+    src/parse_error.hh
     src/parser_impl.hh
     src/log.hh
     src/stm.hh
