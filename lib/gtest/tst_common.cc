@@ -61,3 +61,23 @@ TEST_F(tst_common, empty_fidl)
 {
     ASSERT_TRUE(parse(""));
 }
+
+TEST_F(tst_common, spaces_and_package_decl)
+{
+    ASSERT_TRUE(parse("    \t package test\n"));
+}
+
+TEST_F(tst_common, no_package_name)
+{
+    ASSERT_FALSE(parse("package"));
+}
+
+TEST_F(tst_common, newlines_and_invalid_keyword)
+{
+    ASSERT_FALSE(parse("\n   \ninterface"));
+}
+
+TEST_F(tst_common, package_decl_no_newline)
+{
+    ASSERT_TRUE(parse("package test.franca.idl"));
+}

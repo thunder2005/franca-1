@@ -22,7 +22,7 @@
 using namespace franca;
 
 parser_impl_t::parser_impl_t()
-    : m_stm(new stm_t)
+    : m_stm(new stm_t(*this))
     , m_line_nr(0)
     , m_char_nr(0)
 {
@@ -84,7 +84,7 @@ void parser_impl_t::process_line( const char *line )
     debug() << "Line:" << log_quote_t() << line;
 
     while ( *line != '\0' ) {
-        auto handled_chars = m_stm->handle_token(line);
+        auto handled_chars = m_stm->handle_input(line);
 
         /* If we did not advance at least one character, then we have an issue
          * in STM, which leads to an infinite loop. This check prevents looping

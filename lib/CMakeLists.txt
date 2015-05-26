@@ -10,13 +10,13 @@ set(SOURCES
     src/parser.cc
     src/parser_impl.cc
     src/stm.cc
+    src/state.cc
+    src/state/package.cc
 )
 
 set(HEADERS
     src/parse_error.hh
-    src/parser_impl.hh
     src/log.hh
-    src/stm.hh
 )
 
 set(PUBLIC_HEADERS

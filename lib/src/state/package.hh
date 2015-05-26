@@ -6,31 +6,22 @@
 
 #pragma once
 
-// std includes:
-#include <stack>
-#include <memory>
+// parent include:
+#include "state.hh"
 
 namespace franca {
+namespace state {
 
-class parser_impl_t;
-class state_t;
-
-class stm_t final
+class package_t final: public state_t
 {
-public:
-    explicit stm_t( parser_impl_t &parser );
+    DECL_PARSER_STATE_CTR(package_t)
+    DECL_PARSER_SUBSTATES(expect_package_keyword,
+                          expect_package_name)
 
 public:
-    std::size_t handle_input( const char *input );
-    void handle_eof();
-
-private:
-    friend class state_t;
-    parser_impl_t &parser() const noexcept { return m_parser; }
-
-private:
-    parser_impl_t &m_parser;
-    std::stack<std::shared_ptr<state_t>> m_ss; // state stack
+    /* virtual */ const char *handle_token() override;
+    /* virtual */ void handle_eof() override;
 };
 
+} // namespace state
 } // namespace franca
