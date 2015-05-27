@@ -11,8 +11,29 @@
 #include "log.hh"
 #include "stm.hh"
 #include "parser_impl.hh"
+#include "parse_error.hh"
 
 using namespace franca;
+
+class input_line_updater_t final
+{
+public:
+    input_line_updater_t( input_line_t &input, const char *&local_copy )
+        : m_orig_input(input.mutable_data())
+        , m_local_copy(local_copy)
+    {
+        m_local_copy = m_orig_input;
+    }
+
+    ~input_line_updater_t()
+    {
+        m_orig_input = m_local_copy;
+    }
+
+private:
+    const char *&m_orig_input;
+    const char *&m_local_copy;
+};
 
 state_t::state_t( const char *name, stm_t &stm )
     : m_input(nullptr)
@@ -21,14 +42,45 @@ state_t::state_t( const char *name, stm_t &stm )
 {
 }
 
-const char *state_t::goto_next_token()
+void state_t::handle_token( input_line_t &input )
 {
-    return m_input;
+    /* Ensure that we update a data pointer in an input line before leaving
+     * this function. For the sake of exception safety! */
+    input_line_updater_t updater(input, m_input);
+
+    /* Here we skip spaces, comments and other irrelevant stuff and go to a
+     * token which should be processed. */
+    goto_next_token();
+
+    /* Call an implementation of the token handler of the specific state. */
+    if ( !input.is_eol() ) {
+        auto orig_input = m_input;
+        handle_token();
+
+        /* If we did not advance at least one character, then we have an issue
+         * in STM, which leads to an infinite loop. This check prevents looping
+         * forever. */
+        if ( m_input == orig_input ) {
+            throw parse_error_t("Internal error: infinite loop detected.");
+        }
+    }
 }
 
 void state_t::handle_eof()
 {
     /* default implementation does nothing */
+}
+
+void state_t::goto_next_token()
+{
+    while ( std::isspace(*m_input) )
+        m_input++;
+}
+
+void state_t::handle_token()
+{
+    /* default implementation throws an exception */
+    raise_not_implemented();
 }
 
 log_t state_t::debug()
@@ -49,4 +101,14 @@ log_t state_t::warn()
 log_t state_t::error()
 {
     return m_stm.parser().error();
+}
+
+void state_t::raise_not_implemented( const char *feature_id ) const
+{
+    if ( feature_id ) {
+        throw parse_error_t(std::string("Internal error: feature not implemented: ") +
+                            feature_id + ".");
+    } else {
+        throw parse_error_t("Internal error: feature not implemented.");
+    }
 }

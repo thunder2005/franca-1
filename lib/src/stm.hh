@@ -13,6 +13,7 @@
 namespace franca {
 
 class parser_impl_t;
+class input_line_t;
 class state_t;
 
 class stm_t final
@@ -21,7 +22,7 @@ public:
     explicit stm_t( parser_impl_t &parser );
 
 public:
-    std::size_t handle_input( const char *input );
+    void handle_input( input_line_t &input );
     void handle_eof();
 
 private:

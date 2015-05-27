@@ -23,8 +23,6 @@ using namespace franca;
 
 parser_impl_t::parser_impl_t()
     : m_stm(new stm_t(*this))
-    , m_line_nr(0)
-    , m_char_nr(0)
 {
 }
 
@@ -46,7 +44,7 @@ void parser_impl_t::set_input_provider( const std::shared_ptr<input_provider_t> 
 
 bool parser_impl_t::parse() noexcept
 {
-    assert(m_line_nr == 0);
+    assert(m_line.line_nr() == 0);
     debug() << "Executing parse()";
 
     try {
@@ -55,7 +53,6 @@ bool parser_impl_t::parse() noexcept
 
         /* For each line in the input call a process_line() function. */
         do {
-            m_line_nr++;
             std::getline(input, line);
             if ( input.fail() && !line.empty() )
                 throw parse_error_t("I/O error.");
@@ -79,22 +76,11 @@ bool parser_impl_t::parse() noexcept
 void parser_impl_t::process_line( const char *line )
 {
     assert(line != nullptr);
-    m_char_nr = 1;
-
     debug() << "Line:" << log_quote_t() << line;
 
-    while ( *line != '\0' ) {
-        auto handled_chars = m_stm->handle_input(line);
-
-        /* If we did not advance at least one character, then we have an issue
-         * in STM, which leads to an infinite loop. This check prevents looping
-         * forever. */
-        if ( handled_chars == 0 ) {
-            throw parse_error_t("Internal infinite loop detected.");
-        }
-
-        m_char_nr += handled_chars;
-        line += handled_chars;
+    m_line.reset(line);
+    while ( !m_line.is_eol() ) {
+        m_stm->handle_input(m_line);
     }
 }
 
@@ -120,8 +106,9 @@ log_t parser_impl_t::error()
 
 log_t parser_impl_t::log()
 {
+    m_line.update_baseline();
     return log_t(m_logger.get())
             << log_enable_nospace_t()
-            << m_input->name() << ":" << m_line_nr << ":" << m_char_nr << ":"
+            << m_input->name() << ":" << m_line.line_nr() << ":" << m_line.char_nr() << ":"
             << log_disable_nospace_t();
 }

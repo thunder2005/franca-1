@@ -12,6 +12,7 @@ namespace franca {
 
 class stm_t;
 class log_t;
+class input_line_t;
 
 #define DECL_PARSER_STATE_CTR(__class)                                         \
     public:                                                                    \
@@ -38,10 +39,7 @@ public:
      */
     const char *name() const noexcept { return m_name; }
 
-    void set_input( const char *input ) noexcept { m_input = input; }
-
-    virtual const char *goto_next_token();
-    virtual const char *handle_token() = 0;
+    void handle_token( input_line_t &input );
     virtual void handle_eof();
 
 public:
@@ -49,12 +47,17 @@ public:
 
 protected:
     state_t( const char *name, stm_t &stm );
+    virtual void goto_next_token();
+    virtual void handle_token();
 
 protected:
     log_t debug();
     log_t info();
     log_t warn();
     log_t error();
+
+protected:
+    void raise_not_implemented( const char *feature_id = nullptr ) const;
 
 protected:
     const char *m_input;

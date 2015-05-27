@@ -9,6 +9,9 @@
 // std includes:
 #include <memory>
 
+// local includes:
+#include "input_line.hh"
+
 namespace franca {
 
 class logger_t;
@@ -45,8 +48,7 @@ private:
     std::shared_ptr<logger_t> m_logger;
     std::shared_ptr<input_provider_t> m_input;
     std::unique_ptr<stm_t> m_stm; //!< Parsing state machine.
-    std::size_t m_line_nr; //!< Line number.
-    std::size_t m_char_nr; //!< Character number.
+    input_line_t m_line;
 };
 
 } // namespace franca

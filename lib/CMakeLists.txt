@@ -17,6 +17,7 @@ set(SOURCES
 set(HEADERS
     src/parse_error.hh
     src/log.hh
+    src/input_line.hh
 )
 
 set(PUBLIC_HEADERS

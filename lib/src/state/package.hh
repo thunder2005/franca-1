@@ -19,7 +19,7 @@ class package_t final: public state_t
                           expect_package_name)
 
 public:
-    /* virtual */ const char *handle_token() override;
+    /* virtual */ void handle_token() override;
     /* virtual */ void handle_eof() override;
 };
 

@@ -8,6 +8,8 @@
 #include "stm.hh"
 
 // local includes:
+#include "log.hh"
+#include "parser_impl.hh"
 #include "state/package.hh"
 
 using namespace franca;
@@ -18,20 +20,16 @@ stm_t::stm_t( parser_impl_t &parser )
     m_ss.push(std::make_shared<state::package_t>(*this));
 }
 
-std::size_t stm_t::handle_input( const char *input )
+void stm_t::handle_input( input_line_t &input )
 {
-    auto orig_input = input;
     auto &state = m_ss.top();
-    state->set_input(input);
-
-    input = state->goto_next_token();
-    if ( input != orig_input )
-        return input - orig_input;
-
-    input = state->handle_token();
-    return input - orig_input;
+    m_parser.debug() << "State" << log_quote_t() << state->name();
+    state->handle_token(input);
 }
 
 void stm_t::handle_eof()
 {
+    auto &state = m_ss.top();
+    m_parser.debug() << "EOF in state" << log_quote_t() << state->name();
+    state->handle_eof();
 }
