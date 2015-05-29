@@ -58,6 +58,7 @@ protected:
 
 protected:
     void raise_not_implemented( const char *feature_id = nullptr ) const;
+    void raise_unexpected_eof( const char *what_expected ) const;
 
 protected:
     const char *m_input;

@@ -76,9 +76,10 @@ bool parser_impl_t::parse() noexcept
 void parser_impl_t::process_line( const char *line )
 {
     assert(line != nullptr);
-    debug() << "Line:" << log_quote_t() << line;
 
     m_line.reset(line);
+    debug() << "Line:" << log_quote_t() << line;
+
     while ( !m_line.is_eol() ) {
         m_stm->handle_input(m_line);
     }

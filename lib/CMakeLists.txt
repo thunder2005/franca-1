@@ -11,6 +11,7 @@ set(SOURCES
     src/parser_impl.cc
     src/stm.cc
     src/state.cc
+    src/tokeniser.cc
     src/state/package.cc
 )
 

@@ -112,3 +112,12 @@ void state_t::raise_not_implemented( const char *feature_id ) const
         throw parse_error_t("Internal error: feature not implemented.");
     }
 }
+
+void state_t::raise_unexpected_eof( const char *what_expected ) const
+{
+    if ( what_expected ) {
+        throw parse_error_t(std::string("Got EOF. ") + what_expected);
+    } else {
+        throw parse_error_t("Unexpected EOF.");
+    }
+}
