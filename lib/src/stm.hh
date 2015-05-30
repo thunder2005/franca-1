@@ -29,6 +29,8 @@ private:
     friend class state_t;
     parser_impl_t &parser() const noexcept { return m_parser; }
 
+    void simple_transit( const std::shared_ptr<state_t> &new_state ) noexcept;
+
 private:
     parser_impl_t &m_parser;
     std::stack<std::shared_ptr<state_t>> m_ss; // state stack

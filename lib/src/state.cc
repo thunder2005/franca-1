@@ -103,6 +103,11 @@ log_t state_t::error()
     return m_stm.parser().error();
 }
 
+void state_t::transit( const std::shared_ptr<state_t> &new_state ) const noexcept
+{
+    m_stm.simple_transit(new_state);
+}
+
 void state_t::raise_not_implemented( const char *feature_id ) const
 {
     if ( feature_id ) {

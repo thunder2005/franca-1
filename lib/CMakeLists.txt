@@ -13,6 +13,7 @@ set(SOURCES
     src/state.cc
     src/tokeniser.cc
     src/state/package.cc
+    src/state/types_or_iface.cc
 )
 
 set(HEADERS

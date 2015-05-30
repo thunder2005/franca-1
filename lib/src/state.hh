@@ -7,6 +7,7 @@
 #pragma once
 
 // std includes:
+#include <memory>
 
 namespace franca {
 
@@ -57,11 +58,21 @@ protected:
     log_t error();
 
 protected:
+    template<typename T>
+    void transit() const noexcept
+    {
+        transit(std::make_shared<T>(m_stm));
+    }
+
+protected:
     void raise_not_implemented( const char *feature_id = nullptr ) const;
     void raise_unexpected_eof( const char *what_expected ) const;
 
 protected:
     const char *m_input;
+
+private:
+    void transit( const std::shared_ptr<state_t> &new_state ) const noexcept;
 
 private:
     const char *m_name;

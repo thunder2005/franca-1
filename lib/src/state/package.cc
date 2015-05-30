@@ -9,6 +9,7 @@
 
 // local includes:
 #include "tokeniser.hh"
+#include "state/types_or_iface.hh"
 
 static const char s_package_name_expected_msg[] = "A package name is expected.";
 
@@ -26,6 +27,7 @@ void state::package_t::handle_token()
 
     case subst_t::expect_package_name:
         tkn.read_fqn(s_package_name_expected_msg);
+        transit<state::types_or_iface_t>();
         break;
     }
 }
@@ -35,7 +37,7 @@ void state::package_t::handle_eof()
     switch ( m_subst ) {
     case subst_t::expect_package_keyword:
         /* FIDL file is empty. This is okay. */
-        return;
+        break;
     case subst_t::expect_package_name:
         raise_unexpected_eof(s_package_name_expected_msg);
         break;
