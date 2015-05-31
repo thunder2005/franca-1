@@ -4,25 +4,12 @@
  *                                                                            *
  ******************************************************************************/
 
-#pragma once
+// self-include:
+#include "entity_impl.hh"
 
-// std includes:
-#include <memory>
+using namespace franca;
 
-namespace franca {
-
-class entity_impl_t
+std::string entity::entity_impl_t::fqn() const noexcept
 {
-public:
-    //! Virtual destructor.
-    virtual ~entity_impl_t() = default;
-
-public:
-    entity_impl_t( const entity_impl_t & ) = delete;
-    entity_impl_t &operator=( const entity_impl_t & ) = delete;
-
-public:
-    std::string fqn() const noexcept;
-};
-
-} // namespace franca
+    return "not.yet.implemented";
+}

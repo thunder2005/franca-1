@@ -4,19 +4,27 @@
  *                                                                            *
  ******************************************************************************/
 
-// self-include:
-#include "franca/entity.hh"
+#pragma once
 
-// local includes:
-#include "entity_impl.hh"
-
-using namespace franca;
+// std includes:
+#include <memory>
 
 namespace franca {
+namespace entity {
 
-std::string entity_t::fqn() const noexcept
+class entity_impl_t
 {
-    return m_impl->fqn();
-}
+public:
+    //! Virtual destructor.
+    virtual ~entity_impl_t() = default;
 
+public:
+    entity_impl_t( const entity_impl_t & ) = delete;
+    entity_impl_t &operator=( const entity_impl_t & ) = delete;
+
+public:
+    std::string fqn() const noexcept;
+};
+
+} // namespace entity
 } // namespace franca
