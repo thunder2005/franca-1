@@ -10,7 +10,6 @@
 #include <memory>
 
 namespace franca {
-namespace entity {
 
 class entity_impl_t;
 
@@ -31,5 +30,4 @@ protected:
     std::shared_ptr<entity_impl_t> m_impl;
 };
 
-} // namespace entity
 } // namespace franca

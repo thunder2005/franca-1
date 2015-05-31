@@ -19,10 +19,12 @@ set(SOURCES
 
     # ast:
     src/ast.cc
+    src/ast_node.cc
+    src/ast_node_impl.cc
 
     # entities:
-    src/entity/entity.cc
-    src/entity/entity_impl.cc
+    src/entity.cc
+    src/entity_impl.cc
 )
 
 set(HEADERS
@@ -35,8 +37,9 @@ set(PUBLIC_HEADERS
     include/franca/parser.hh
     include/franca/logger.hh
     include/franca/input_provider.hh
-    include/franca/entity/entity.hh
-    include/franca/entity/package.hh
+    include/franca/ast_node.hh
+    include/franca/entity.hh
+    include/franca/package.hh
 )
 
 add_library(franca SHARED

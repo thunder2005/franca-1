@@ -11,7 +11,7 @@
 #include "parser_impl.hh"
 
 // franca includes:
-#include "franca/entity/package.hh"
+#include "franca/package.hh"
 
 using namespace franca;
 
@@ -39,7 +39,7 @@ bool parser_t::parse() noexcept
     return m_impl->parse();
 }
 
-std::vector<entity::package_t> parser_t::packages() const noexcept
+std::vector<package_t> parser_t::packages() const noexcept
 {
     return {};
 }

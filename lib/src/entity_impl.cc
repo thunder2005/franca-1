@@ -4,19 +4,12 @@
  *                                                                            *
  ******************************************************************************/
 
-#pragma once
+// self-include:
+#include "entity_impl.hh"
 
-// parent include:
-#include "entity.hh"
+using namespace franca;
 
-namespace franca {
-namespace entity {
-
-class package_impl_t;
-
-class package_t final: public entity_t
+std::string entity_impl_t::fqn() const noexcept
 {
-};
-
-} // namespace entity
-} // namespace franca
+    return "not.yet.implemented";
+}
