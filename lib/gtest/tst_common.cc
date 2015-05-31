@@ -10,6 +10,7 @@
 // franca includes:
 #include <franca/logger.hh>
 #include <franca/input_provider.hh>
+#include <franca/package.hh>
 
 using namespace franca;
 
@@ -60,11 +61,15 @@ class tst_common: public test_t
 TEST_F(tst_common, empty_fidl)
 {
     ASSERT_TRUE(parse(""));
+    ASSERT_EQ(0, parser().packages().size());
 }
 
 TEST_F(tst_common, spaces_and_package_decl)
 {
     ASSERT_TRUE(parse("    \t package test\n"));
+    auto packages = parser().packages();
+    ASSERT_EQ(1, packages.size());
+    ASSERT_FQN("test", packages[0]);
 }
 
 TEST_F(tst_common, no_package_name)
@@ -80,4 +85,37 @@ TEST_F(tst_common, newlines_and_invalid_keyword)
 TEST_F(tst_common, package_decl_no_newline)
 {
     ASSERT_TRUE(parse("package test.franca.idl"));
+    auto packages = parser().packages();
+    ASSERT_EQ(1, packages.size());
+    ASSERT_FQN("test.franca.idl", packages[0]);
+}
+
+TEST_F(tst_common, package_name_contains_digits)
+{
+    ASSERT_TRUE(parse("package what.a.w0nderfull.n8"));
+}
+
+TEST_F(tst_common, invalid_package_name_two_dots)
+{
+    ASSERT_FALSE(parse("package two..dots"));
+}
+
+TEST_F(tst_common, invalid_package_name_first_dot)
+{
+    ASSERT_FALSE(parse("package .dot"));
+}
+
+TEST_F(tst_common, invalid_package_name_last_dot)
+{
+    ASSERT_FALSE(parse("package last."));
+}
+
+TEST_F(tst_common, invalid_package_name_digit)
+{
+    ASSERT_FALSE(parse("package 42name"));
+}
+
+TEST_F(tst_common, invalid_package_name_symbols)
+{
+    ASSERT_FALSE(parse("package h@llo"));
 }

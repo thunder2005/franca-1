@@ -17,6 +17,9 @@
 // std includes:
 #include <sstream>
 
+#define ASSERT_FQN(__exp_fqn, __entity)                                        \
+    ASSERT_STREQ(__exp_fqn, (__entity).fqn().c_str())
+
 namespace franca {
 
 class test_logger_t final: public franca::logger_t
@@ -47,6 +50,9 @@ public:
 
 public:
     bool parse( const char *fidl );
+
+public:
+    const parser_t &parser() const { return m_parser; }
 
 private:
     parser_t m_parser;

@@ -9,11 +9,20 @@ add_subdirectory(gtest)
 set(SOURCES
     src/parser.cc
     src/parser_impl.cc
+
+    # stm:
     src/stm.cc
     src/state.cc
     src/tokeniser.cc
     src/state/package.cc
     src/state/types_or_iface.cc
+
+    # ast:
+    src/ast.cc
+
+    # entities:
+    src/entity.cc
+    src/entity_impl.cc
 )
 
 set(HEADERS
@@ -26,6 +35,8 @@ set(PUBLIC_HEADERS
     include/franca/parser.hh
     include/franca/logger.hh
     include/franca/input_provider.hh
+    include/franca/entity.hh
+    include/franca/package.hh
 )
 
 add_library(franca SHARED

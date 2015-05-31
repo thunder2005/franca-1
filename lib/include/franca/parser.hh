@@ -9,11 +9,13 @@
 // std includes:
 #include <iosfwd>
 #include <memory>
+#include <vector>
 
 namespace franca {
 
 class logger_t;
 class input_provider_t;
+class package_t;
 class parser_impl_t;
 
 /*!
@@ -52,6 +54,12 @@ public:
      * \return True, if the pasre was successful.
      */
     bool parse() noexcept;
+
+    /*!
+     * \brief Get a list of parsed packages.
+     * \return A list of packages parsed.
+     */
+    std::vector<package_t> packages() const noexcept;
 
 private:
     std::unique_ptr<parser_impl_t> m_impl;

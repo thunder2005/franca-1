@@ -7,8 +7,11 @@
 // self-include:
 #include "franca/parser.hh"
 
-// franca includes:
+// local includes:
 #include "parser_impl.hh"
+
+// franca includes:
+#include "franca/package.hh"
 
 using namespace franca;
 
@@ -34,4 +37,9 @@ void parser_t::set_input_provider( const std::shared_ptr<input_provider_t> &inpu
 bool parser_t::parse() noexcept
 {
     return m_impl->parse();
+}
+
+std::vector<package_t> parser_t::packages() const noexcept
+{
+    return {};
 }

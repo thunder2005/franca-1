@@ -14,12 +14,17 @@ namespace franca {
 
 class parser_impl_t;
 class input_line_t;
+class ast_t;
 class state_t;
 
 class stm_t final
 {
 public:
     explicit stm_t( parser_impl_t &parser );
+    ~stm_t();
+
+    stm_t( const stm_t & ) = delete;
+    stm_t &operator=( const stm_t & ) = delete;
 
 public:
     void handle_input( input_line_t &input );
@@ -28,11 +33,13 @@ public:
 private:
     friend class state_t;
     parser_impl_t &parser() const noexcept { return m_parser; }
+    ast_t &ast() const noexcept { return *m_ast; }
 
     void simple_transit( const std::shared_ptr<state_t> &new_state ) noexcept;
 
 private:
     parser_impl_t &m_parser;
+    std::unique_ptr<ast_t> m_ast; // abstract syntax tree
     std::stack<std::shared_ptr<state_t>> m_ss; // state stack
 };
 

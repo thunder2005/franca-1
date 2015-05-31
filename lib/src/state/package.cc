@@ -8,6 +8,7 @@
 #include "package.hh"
 
 // local includes:
+#include "ast.hh"
 #include "tokeniser.hh"
 #include "state/types_or_iface.hh"
 
@@ -26,7 +27,7 @@ void state::package_t::handle_token()
         break;
 
     case subst_t::expect_package_name:
-        tkn.read_fqn(s_package_name_expected_msg);
+        ast().set_active_package(tkn.read_fqn(s_package_name_expected_msg));
         transit<state::types_or_iface_t>();
         break;
     }

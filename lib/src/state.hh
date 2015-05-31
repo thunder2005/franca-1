@@ -14,6 +14,7 @@ namespace franca {
 class stm_t;
 class log_t;
 class input_line_t;
+class ast_t;
 
 #define DECL_PARSER_STATE_CTR(__class)                                         \
     public:                                                                    \
@@ -45,11 +46,16 @@ public:
 
 public:
     ~state_t() = default;
+    state_t( const state_t & ) = delete;
+    state_t &operator=( const state_t & ) = delete;
 
 protected:
     state_t( const char *name, stm_t &stm );
     virtual void goto_next_token();
     virtual void handle_token();
+
+protected:
+    ast_t &ast();
 
 protected:
     log_t debug();

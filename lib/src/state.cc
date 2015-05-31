@@ -83,6 +83,11 @@ void state_t::handle_token()
     raise_not_implemented();
 }
 
+ast_t &state_t::ast()
+{
+    return m_stm.ast();
+}
+
 log_t state_t::debug()
 {
     return m_stm.parser().debug();
