@@ -10,6 +10,9 @@
 // local includes:
 #include "parse_error.hh"
 
+// franca includes:
+#include "franca/ast_node.hh"
+
 using namespace franca;
 
 static bool split_fqn( const std::string &fqn, std::string &name, std::string &rest )
@@ -63,6 +66,11 @@ ast_node_impl_t::ast_node_impl_t( private_ctr, const std::string &name )
     : m_name(name)
 {
     assert_name(m_name);
+}
+
+ast_node_t ast_node_impl_t::interface() noexcept
+{
+    return ast_node_t(shared_from_this());
 }
 
 std::string ast_node_impl_t::fqn() const

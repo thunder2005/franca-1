@@ -14,7 +14,7 @@
 namespace franca {
 
 class ast_node_impl_t;
-struct entity_t;
+class entity_t;
 
 //! AST node.
 class ast_node_t final

@@ -13,7 +13,8 @@
 
 namespace franca {
 
-class ast_object_t;
+class ast_node_t;
+class entity_impl_t;
 
 /*!
  * \brief AST node (implementation).
@@ -62,13 +63,17 @@ public:
             create( const std::string &name, const std::shared_ptr<ast_node_impl_t> &parent );
 
     //! \internal
-    ast_node_impl_t( private_ctr );
+    explicit ast_node_impl_t( private_ctr );
     //! \internal
     explicit ast_node_impl_t( private_ctr, const std::string &name );
     //! \internal
     ast_node_impl_t( const ast_node_impl_t & ) = delete;
     //! \internal
     ast_node_impl_t &operator=( const ast_node_impl_t & ) = delete;
+
+public:
+    //! Create an public interface object.
+    ast_node_t interface() noexcept;
 
 public:
     //! Get a name of the node.
@@ -91,6 +96,18 @@ public:
         std::string, std::shared_ptr<ast_node_impl_t>> &children() const noexcept
     {
         return m_children;
+    }
+
+    //! Check if the node has an associated entity.
+    bool has_entity() const noexcept
+    {
+        return static_cast<bool>(m_entity);
+    }
+
+    //! Get an associated entity.
+    const std::shared_ptr<entity_impl_t> &entity() const noexcept
+    {
+        return m_entity;
     }
 
 public:
@@ -126,6 +143,7 @@ private:
     const std::string m_name;
     std::weak_ptr<ast_node_impl_t> m_parent;
     std::unordered_map<std::string, std::shared_ptr<ast_node_impl_t>> m_children;
+    std::shared_ptr<entity_impl_t> m_entity;
 };
 
 } // namespace franca

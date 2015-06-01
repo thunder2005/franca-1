@@ -11,6 +11,8 @@
 
 namespace franca {
 
+class ast_node_impl_t;
+
 class entity_impl_t
 {
 public:
@@ -18,11 +20,26 @@ public:
     virtual ~entity_impl_t() = default;
 
 public:
+    //! \internal
     entity_impl_t( const entity_impl_t & ) = delete;
+    //! \internal
     entity_impl_t &operator=( const entity_impl_t & ) = delete;
 
 public:
-    std::string fqn() const noexcept;
+    /*!
+     * \brief Check if this enity is associated with an AST node.
+     * \return True, if the entity is associated with an AST node.
+     */
+    bool has_ast_node() const noexcept;
+
+    /*!
+     * \brief Get an associated AST node.
+     * \return AST node for this entity.
+     */
+    std::shared_ptr<ast_node_impl_t> ast_node() const noexcept;
+
+private:
+    std::weak_ptr<ast_node_impl_t> m_ast_node;
 };
 
 } // namespace franca

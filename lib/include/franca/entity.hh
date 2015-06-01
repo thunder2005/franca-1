@@ -11,6 +11,7 @@
 
 namespace franca {
 
+class ast_node_t;
 class entity_impl_t;
 
 class entity_t
@@ -25,6 +26,12 @@ public:
      * \return An FQN.
      */
     std::string fqn() const noexcept;
+
+    /*!
+     * \brief Get an AST node associated with this entity.
+     * \return An associated AST node.
+     */
+    ast_node_t ast_node() const noexcept;
 
 protected:
     std::shared_ptr<entity_impl_t> m_impl;

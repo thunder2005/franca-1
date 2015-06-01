@@ -9,7 +9,12 @@
 
 using namespace franca;
 
-std::string entity_impl_t::fqn() const noexcept
+bool entity_impl_t::has_ast_node() const noexcept
 {
-    return "not.yet.implemented";
+    return !m_ast_node.expired();
+}
+
+std::shared_ptr<ast_node_impl_t> entity_impl_t::ast_node() const noexcept
+{
+    return m_ast_node.lock();
 }
