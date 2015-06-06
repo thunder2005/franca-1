@@ -8,7 +8,9 @@
 #include <gtest/gtest.h>
 
 // franca includes:
+#include "parser_impl.hh"
 #include "ast_node_impl.hh"
+#include "ast.hh"
 
 using namespace franca;
 
@@ -17,13 +19,13 @@ TEST(fqn, basic_node)
     auto node = ast_node_impl_t::create("node");
     ASSERT_STREQ("node", node->name().c_str());
 
-    auto example_node = node->subpath_at("example");
+    auto example_node = node->subnode_at("example", ast_flag_t::create_recursive);
     ASSERT_STREQ("example", example_node->name().c_str());
 
-    auto new_node = example_node->subnode_at("new");
+    auto new_node = example_node->subnode_at("new", ast_flag_t::create);
     ASSERT_STREQ("new", new_node->name().c_str());
 
-    auto yet_new_node = node->subpath_at("example.new");
+    auto yet_new_node = node->subnode_at("example.new", ast_flag_t::create_recursive);
     ASSERT_EQ(new_node, yet_new_node);
     ASSERT_STREQ("node.example.new", new_node->fqn().c_str());
 }
@@ -31,7 +33,7 @@ TEST(fqn, basic_node)
 TEST(fqn, delete_node)
 {
     auto root = ast_node_impl_t::create_root();
-    auto node = root->subpath_at("this.is.an.example.node");
+    auto node = root->subnode_at("this.is.an.example.node", ast_flag_t::create_recursive);
 
     ASSERT_STREQ("node", node->name().c_str());
     ASSERT_STREQ("this.is.an.example.node", node->fqn().c_str());
@@ -49,9 +51,9 @@ TEST(fqn, delete_node)
 TEST(fqn, rebase_node)
 {
     auto root = ast_node_impl_t::create_root();
-    auto node_one = root->subpath_at("this.is.an.example.node");
-    auto node_two = root->subpath_at("this.is.another.node");
-    auto new_base = root->subnode_at("that");
+    auto node_one = root->subnode_at("this.is.an.example.node", ast_flag_t::create_recursive);
+    auto node_two = root->subnode_at("this.is.another.node", ast_flag_t::create_recursive);
+    auto new_base = root->subnode_at("that", ast_flag_t::create);
 
     node_two->parent()->parent()->rebase(new_base);
     ASSERT_STREQ("that.is.an.example.node", node_one->fqn().c_str());
@@ -61,9 +63,28 @@ TEST(fqn, rebase_node)
 TEST(fqn, circular_rebase_node)
 {
     auto root = ast_node_impl_t::create_root();
-    auto node = root->subpath_at("this.is.an.example.node");
+    auto node = root->subnode_at("this.is.an.example.node", ast_flag_t::create_recursive);
 
-    root->subpath_at("this.is.an")->rebase(node);
+    root->subnode_at("this.is.an")->rebase(node);
     // todo: implement handling of circular rebase
     //ASSERT_STREQ("that.is.an.example.node", node->fqn().c_str());
+}
+
+TEST(fqn, basic_ast)
+{
+    parser_impl_t parser;
+    ast_t ast(parser);
+
+    auto node = ast.node_at("this.is.node", ast_flag_t::create_recursive);
+    ASSERT_EQ(ast.top_node(), node->parent()->parent()->parent());
+
+    auto new_base = ast.node_at("this.is.base", ast_flag_t::create | ast_flag_t::push);
+    ASSERT_EQ(ast.top_node(), new_base);
+
+    node = ast.node_at("some", ast_flag_t::create | ast_flag_t::relative);
+    ASSERT_STREQ("this.is.base.some", node->fqn().c_str());
+
+    node = ast.node_at("some", ast_flag_t::create);
+    ASSERT_STREQ("some", node->fqn().c_str());
+    ASSERT_TRUE(node->parent()->is_root());
 }

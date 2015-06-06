@@ -18,7 +18,7 @@ using namespace franca;
 static bool split_fqn( const std::string &fqn, std::string &name, std::string &rest )
 {
     if ( fqn.empty() )
-        throw parse_error_t("FQN is empty");
+        throw parse_error_t("FQN is empty.");
 
     auto dot_pos = fqn.find('.');
     if ( dot_pos == std::string::npos ) {
@@ -28,7 +28,7 @@ static bool split_fqn( const std::string &fqn, std::string &name, std::string &r
         name = fqn.substr(0, dot_pos);
         rest = fqn.substr(dot_pos + 1);
         if ( name.empty() || rest.empty() )
-            throw parse_error_t("FQN contains empty segments");
+            throw parse_error_t("FQN contains empty segments.");
         return true;
     }
 }
@@ -109,31 +109,45 @@ void ast_node_impl_t::rebase( const std::shared_ptr<ast_node_impl_t> &new_parent
 }
 
 std::shared_ptr<ast_node_impl_t>
-        ast_node_impl_t::subnode_at( const std::string &name )
-{
-    auto it = m_children.find(name);
-    if ( it != m_children.end() ) {
-        return it->second;
-    } else {
-        return ast_node_impl_t::create(name, shared_from_this());
-    }
-}
-
-std::shared_ptr<ast_node_impl_t>
-        ast_node_impl_t::subpath_at( const std::string &fqn )
+        ast_node_impl_t::subnode_at( const std::string &fqn, ast_flags_t flags )
 {
     std::string name, rest;
     const bool has_rest = split_fqn(fqn, name, rest);
 
-    // if fqn == name:
-    if ( !has_rest )
-        return subnode_at(name);
-
     auto it = m_children.find(name);
-    if ( it != m_children.end() ) {
-        return it->second->subpath_at(rest);
+    const bool is_subnode_found = (it != m_children.end());
+
+    /* Simple case. FQN contains only a single identifier. */
+    if ( !has_rest ) {
+        if ( is_subnode_found ) {
+            if ( flags.is_set(ast_flag_t::create_exclusive) ) {
+                throw parse_error_t("AST node already exists.");
+            } else {
+                const auto &subnode = it->second;
+                if ( flags.is_set(ast_flag_t::free) && subnode->has_entity() ) {
+                    throw parse_error_t("FQN is already used.");
+                }
+                return subnode;
+            }
+        } else {
+            if ( flags.is_set(ast_flag_t::create) ) {
+                return ast_node_impl_t::create(name, shared_from_this());
+            } else {
+                throw parse_error_t("AST node does not exist.");
+            }
+        }
+    }
+
+    /* If we are here, then FQN contains at least two identifiers. */
+
+    if ( is_subnode_found ) {
+        return it->second->subnode_at(rest, flags);
     } else {
-        auto subnode = ast_node_impl_t::create(name, shared_from_this());
-        return subnode->subpath_at(rest);
+        if ( flags.is_set(ast_flag_t::create_recursive) ) {
+            auto subnode = ast_node_impl_t::create(name, shared_from_this());
+            return subnode->subnode_at(rest, flags);
+        } else {
+            throw parse_error_t("Some nodes for the given FQN do not exist.");
+        }
     }
 }

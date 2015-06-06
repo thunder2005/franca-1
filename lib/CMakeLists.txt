@@ -31,6 +31,7 @@ set(HEADERS
     src/parse_error.hh
     src/log.hh
     src/input_line.hh
+    src/ast_flags.hh
 )
 
 set(PUBLIC_HEADERS

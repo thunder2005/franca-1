@@ -11,6 +11,9 @@
 #include <string>
 #include <unordered_map>
 
+// local includes:
+#include "ast_flags.hh"
+
 namespace franca {
 
 class ast_node_t;
@@ -119,25 +122,7 @@ public:
      */
     void rebase( const std::shared_ptr<ast_node_impl_t> &new_parent );
 
-    /*!
-     * \brief Get or construct a subnode.
-     * \param name Name of a subnode.
-     * \return A shared pointer to a subnode.
-     *
-     * This function returns a subnode with a given name. If such node does not
-     * exist, it is constructed.
-     */
-    std::shared_ptr<ast_node_impl_t> subnode_at( const std::string &name );
-
-    /*!
-     * \brief Get or construct a subnode at a given path.
-     * \param fqn Fully qualified name of a subnode.
-     * \return A shared pointer to a subnode.
-     *
-     * This function returns a subnode at a given path, relative to this node.
-     * Missing nodes of this path, if any, are constructed.
-     */
-    std::shared_ptr<ast_node_impl_t> subpath_at( const std::string &fqn );
+    std::shared_ptr<ast_node_impl_t> subnode_at( const std::string &fqn, ast_flags_t flags = ast_flags_t() );
 
 private:
     const std::string m_name;

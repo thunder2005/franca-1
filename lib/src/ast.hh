@@ -11,6 +11,9 @@
 #include <memory>
 #include <stack>
 
+// local includes:
+#include "ast_flags.hh"
+
 namespace franca {
 
 class parser_impl_t;
@@ -33,54 +36,22 @@ public:
     /*!
      * \brief Get a node with a given FQN.
      * \param fqn Fully qualified name.
-     * \param recursive Enable recursive node creation.
-     * \return FQN node.
+     * \param flags AST flags.
+     * \return AST node.
      *
-     * This method returns a node with a given \e absolute FQN. If a node does
-     * not exist, it and all missing parents are created. If a recursive mode is
-     * disabled, \e fqn is allowed to be only one level deep.
+     * This method returns an AST node with a given \e absolute FQN.
+     *
+     * The exact behaviour depends on set \e flags. Please see \ref ast_flag_t
+     * for a detailed description.
      */
     std::shared_ptr<ast_node_impl_t>
-            node_at( const std::string &fqn, bool recursive = true );
-
-    /*!
-     * \brief Get a node with a given relative FQN.
-     * \param fqn Fully qualified name.
-     * \param recursive Enable recursive node creation.
-     * \return FQN node.
-     *
-     * This method returns a node with a given FQN, \e relative to the current
-     * top node. If a node does not exist, it and all mising parents are created.
-     * If a recursive mode is disabled, \e fqn is allowed to be only one level deep.
-     *
-     * \sa top_node()
-     */
-    std::shared_ptr<ast_node_impl_t>
-            node_at_rel( const std::string &fqn, bool recursive = true );
+            node_at( const std::string &fqn, ast_flags_t flags );
 
     /*!
      * \brief Get a current top node.
      * \return Current FQN node.
      */
     std::shared_ptr<ast_node_impl_t> top_node() const;
-
-    /*!
-     * \brief Make a node with a given FQN a current top node.
-     * \param fqn Fully qualified name.
-     * \param recursive Enable recursive node creation.
-     * \return FQN node.
-     */
-    std::shared_ptr<ast_node_impl_t>
-            push_node( const std::string &fqn, bool recursive = true );
-
-    /*!
-     * \brief Make a node with a given relative FQN a current top node.
-     * \param fqn Fully qualified name.
-     * \param recursive Enable recursive node creation.
-     * \return FQN node.
-     */
-    std::shared_ptr<ast_node_impl_t>
-            push_node_rel( const std::string &fqn, bool recursive = true );
 
     /*!
      * \brief Restore a previous top node.
