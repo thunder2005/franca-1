@@ -45,7 +45,7 @@ public:
     virtual void handle_eof();
 
 public:
-    ~state_t() = default;
+    virtual ~state_t() = default;
     state_t( const state_t & ) = delete;
     state_t &operator=( const state_t & ) = delete;
 
