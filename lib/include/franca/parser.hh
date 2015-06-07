@@ -16,7 +16,10 @@ namespace franca {
 class logger_t;
 class input_provider_t;
 class parser_impl_t;
+
+namespace entity {
 class package_t;
+} // namespace entity
 
 /*!
  * \brief Franca IDL parser.
@@ -59,7 +62,7 @@ public:
      * \brief Get a list of parsed packages.
      * \return A list of packages parsed.
      */
-    std::vector<package_t> packages() const noexcept;
+    std::vector<entity::package_t> packages() const noexcept;
 
 private:
     std::unique_ptr<parser_impl_t> m_impl;

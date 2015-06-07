@@ -10,7 +10,7 @@
 // franca includes:
 #include <franca/logger.hh>
 #include <franca/input_provider.hh>
-#include <franca/package.hh>
+#include <franca/entity/package.hh>
 
 using namespace franca;
 

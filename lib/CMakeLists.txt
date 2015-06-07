@@ -25,6 +25,8 @@ set(SOURCES
     # entities:
     src/entity.cc
     src/entity_impl.cc
+    src/entity/package.cc
+    src/entity/package_impl.cc
 )
 
 set(HEADERS
@@ -40,7 +42,7 @@ set(PUBLIC_HEADERS
     include/franca/input_provider.hh
     include/franca/ast_node.hh
     include/franca/entity.hh
-    include/franca/package.hh
+    include/franca/entity/package.hh
 )
 
 add_library(franca SHARED

@@ -38,6 +38,12 @@ public:
      */
     std::shared_ptr<ast_node_impl_t> ast_node() const noexcept;
 
+protected:
+    //! \internal
+    class private_ctr {};
+    //! \internal
+    entity_impl_t() = default;
+
 private:
     std::weak_ptr<ast_node_impl_t> m_ast_node;
 };
