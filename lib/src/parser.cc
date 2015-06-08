@@ -9,6 +9,7 @@
 
 // local includes:
 #include "parser_impl.hh"
+#include "entity/package_impl.hh"
 
 // franca includes:
 #include "franca/entity/package.hh"
@@ -41,5 +42,12 @@ bool parser_t::parse() noexcept
 
 std::vector<entity::package_t> parser_t::packages() const noexcept
 {
-    return {};
+    const auto package_impls = m_impl->packages();
+    std::vector<entity::package_t> result;
+
+    for ( const auto &package_impl : package_impls ) {
+        result.push_back(package_impl->interface());
+    }
+
+    return result;
 }

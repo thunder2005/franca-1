@@ -13,6 +13,9 @@
 #include "ast_node_impl.hh"
 #include "entity/package_impl.hh"
 
+// std includes:
+#include <cassert>
+
 using namespace franca;
 
 ast_t::ast_t( parser_impl_t &parser )
@@ -24,12 +27,15 @@ ast_t::ast_t( parser_impl_t &parser )
 
 void ast_t::set_active_package( const std::string &fqn )
 {
+    assert(!m_active_package);
     m_parser.debug() << "Package:" << log_quote_t() << fqn;
-    auto package = entity::package_impl_t::create();
+
+    m_active_package = entity::package_impl_t::create();
     auto node = node_at(fqn, ast_flag_t::create_recursive |
                              ast_flag_t::free |
                              ast_flag_t::push);
-    /* TODO: bind a package and a node */
+
+    node->bind_entity(m_active_package);
 }
 
 std::shared_ptr<ast_node_impl_t>

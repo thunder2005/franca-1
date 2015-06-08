@@ -113,6 +113,9 @@ public:
         return m_entity;
     }
 
+    //! Bind an entity to the node.
+    void bind_entity( const std::shared_ptr<entity_impl_t> &entity ) noexcept;
+
 public:
     /*!
      * \brief Rebase this node to a new parent.

@@ -9,9 +9,13 @@
 
 // local includes:
 #include "parse_error.hh"
+#include "entity_impl.hh"
 
 // franca includes:
 #include "franca/ast_node.hh"
+
+// std includes:
+#include <cassert>
 
 using namespace franca;
 
@@ -91,6 +95,14 @@ std::shared_ptr<ast_node_impl_t> ast_node_impl_t::parent() const
 bool ast_node_impl_t::has_parent() const
 {
     return !m_parent.expired();
+}
+
+void ast_node_impl_t::bind_entity( const std::shared_ptr<entity_impl_t> &entity ) noexcept
+{
+    assert(!m_entity);
+    assert(!entity->has_ast_node());
+    m_entity = entity;
+    m_entity->m_ast_node = shared_from_this();
 }
 
 void ast_node_impl_t::rebase( const std::shared_ptr<ast_node_impl_t> &new_parent )

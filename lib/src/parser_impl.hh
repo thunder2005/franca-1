@@ -6,11 +6,12 @@
 
 #pragma once
 
-// std includes:
-#include <memory>
-
 // local includes:
 #include "input_line.hh"
+
+// std includes:
+#include <memory>
+#include <vector>
 
 namespace franca {
 
@@ -18,6 +19,11 @@ class logger_t;
 class log_t;
 class input_provider_t;
 class stm_t;
+class ast_t;
+
+namespace entity {
+class package_impl_t;
+} // namespace entity
 
 class parser_impl_t final
 {
@@ -33,6 +39,7 @@ public:
     void set_logger( const std::shared_ptr<logger_t> &logger );
     void set_input_provider( const std::shared_ptr<input_provider_t> &input );
     bool parse() noexcept;
+    std::vector<std::shared_ptr<entity::package_impl_t>> packages() const noexcept;
 
 public:
     log_t debug();
@@ -47,6 +54,7 @@ private:
 private:
     std::shared_ptr<logger_t> m_logger;
     std::shared_ptr<input_provider_t> m_input;
+    std::unique_ptr<ast_t> m_ast; //!< Abstract syntax tree.
     std::unique_ptr<stm_t> m_stm; //!< Parsing state machine.
     input_line_t m_line;
 };

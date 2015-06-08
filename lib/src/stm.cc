@@ -15,9 +15,9 @@
 
 using namespace franca;
 
-stm_t::stm_t( parser_impl_t &parser )
+stm_t::stm_t(parser_impl_t &parser , ast_t &ast)
     : m_parser(parser)
-    , m_ast(new ast_t(parser))
+    , m_ast(ast)
 {
     m_ss.push(std::make_shared<state::package_t>(*this));
 }

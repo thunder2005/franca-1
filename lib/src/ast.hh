@@ -19,6 +19,10 @@ namespace franca {
 class parser_impl_t;
 class ast_node_impl_t;
 
+namespace entity {
+class package_impl_t;
+} // namespace entity
+
 /*!
  * \brief Abstract syntax tree.
  */
@@ -31,6 +35,11 @@ public:
 
 public:
     void set_active_package( const std::string &fqn );
+
+    const std::shared_ptr<entity::package_impl_t> &active_package() const noexcept
+    {
+        return m_active_package;
+    }
 
 public:
     /*!
@@ -62,6 +71,9 @@ private:
     parser_impl_t &m_parser;
     std::shared_ptr<ast_node_impl_t> m_root;
     std::stack<std::shared_ptr<ast_node_impl_t>> m_node_stack;
+
+private:
+    std::shared_ptr<entity::package_impl_t> m_active_package;
 };
 
 } // namespace franca

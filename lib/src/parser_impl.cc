@@ -11,6 +11,7 @@
 #include "log.hh"
 #include "stm.hh"
 #include "parse_error.hh"
+#include "ast.hh"
 
 // franca includes:
 #include "franca/logger.hh"
@@ -22,7 +23,8 @@
 using namespace franca;
 
 parser_impl_t::parser_impl_t()
-    : m_stm(new stm_t(*this))
+    : m_ast(new ast_t(*this))
+    , m_stm(new stm_t(*this, *m_ast))
 {
 }
 
@@ -82,6 +84,16 @@ void parser_impl_t::process_line( const char *line )
 
     while ( !m_line.is_eol() ) {
         m_stm->handle_input(m_line);
+    }
+}
+
+std::vector<std::shared_ptr<entity::package_impl_t> > parser_impl_t::packages() const noexcept
+{
+    const auto active_package = m_ast->active_package();
+    if ( active_package ) {
+        return { active_package };
+    } else {
+        return {};
     }
 }
 

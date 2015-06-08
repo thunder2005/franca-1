@@ -45,6 +45,7 @@ protected:
     entity_impl_t() = default;
 
 private:
+    friend class ast_node_impl_t; // see ast_node_impl_t::bind_entity()
     std::weak_ptr<ast_node_impl_t> m_ast_node;
 };
 
