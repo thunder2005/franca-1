@@ -70,6 +70,14 @@ protected:
         transit(std::make_shared<T>(m_stm));
     }
 
+    template<typename T>
+    void enter_substate() const noexcept
+    {
+        enter_substate(std::make_shared<T>(m_stm));
+    }
+
+    void leave_state() const noexcept;
+
 protected:
     void raise_not_implemented( const char *feature_id = nullptr ) const;
     void raise_unexpected_eof( const char *what_expected ) const;
@@ -79,6 +87,7 @@ protected:
 
 private:
     void transit( const std::shared_ptr<state_t> &new_state ) const noexcept;
+    void enter_substate( const std::shared_ptr<state_t> &new_state ) const noexcept;
 
 private:
     const char *m_name;

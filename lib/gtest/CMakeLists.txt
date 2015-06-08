@@ -8,6 +8,7 @@ find_package(GTest REQUIRED)
 
 add_executable(gtest_franca
     tst_common.cc
+    tst_types.cc
     tst_fqn_utils.cc
 )
 

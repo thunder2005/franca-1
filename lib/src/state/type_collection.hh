@@ -12,11 +12,13 @@
 namespace franca {
 namespace state {
 
-class types_or_iface_t final: public state_t
+class type_collection_t final: public state_t
 {
-    DECL_PARSER_STATE_CTR(types_or_iface_t)
-    DECL_PARSER_SUBSTATES(expect_types_or_iface_keyword,
-                          expect_interface_name)
+    DECL_PARSER_STATE_CTR(type_collection_t)
+    DECL_PARSER_SUBSTATES(expect_type_collection_name,
+                          expect_open_brace,
+                          expect_optional_version,
+                          expect_types_or_close_brace)
 
 public:
     /* virtual */ void handle_token() override;

@@ -50,3 +50,20 @@ void stm_t::simple_transit( const std::shared_ptr<state_t> &new_state ) noexcept
                         log_quote_t() << new_state->name();
     cur_state = new_state;
 }
+
+void stm_t::push_transit( const std::shared_ptr<state_t> &new_state ) noexcept
+{
+    const auto &cur_state = m_ss.top();
+    m_parser.debug() << "Push:" << log_quote_t() << cur_state->name() << "->" <<
+                        log_quote_t() << new_state->name();
+    m_ss.push(new_state);
+}
+
+void stm_t::pop_transit() noexcept
+{
+    const auto cur_state = m_ss.top();
+    m_ss.pop();
+    const auto &new_state = m_ss.top();
+    m_parser.debug() << "Pop:" << log_quote_t() << cur_state->name() << "->" <<
+                        log_quote_t() << new_state->name();
+}

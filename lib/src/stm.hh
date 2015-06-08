@@ -36,6 +36,8 @@ private:
     ast_t &ast() const noexcept { return m_ast; }
 
     void simple_transit( const std::shared_ptr<state_t> &new_state ) noexcept;
+    void push_transit( const std::shared_ptr<state_t> &new_state ) noexcept;
+    void pop_transit() noexcept;
 
 private:
     parser_impl_t &m_parser;

@@ -42,6 +42,12 @@ public /* rules */:
         return add_rule(token, [&dst, val]() { dst = val; });
     }
 
+//    template<typename T>
+//    tokeniser_t &add_rule_exec( const char *token )
+//    {
+
+//    }
+
 public /* generic parsers */:
     bool is_token( const char *token, bool is_mutable = false );
     bool is_fqn( bool is_mutable = false );

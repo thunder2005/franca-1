@@ -113,6 +113,16 @@ void state_t::transit( const std::shared_ptr<state_t> &new_state ) const noexcep
     m_stm.simple_transit(new_state);
 }
 
+void state_t::enter_substate( const std::shared_ptr<state_t> &new_state ) const noexcept
+{
+    m_stm.push_transit(new_state);
+}
+
+void state_t::leave_state() const noexcept
+{
+    m_stm.pop_transit();
+}
+
 void state_t::raise_not_implemented( const char *feature_id ) const
 {
     if ( feature_id ) {
