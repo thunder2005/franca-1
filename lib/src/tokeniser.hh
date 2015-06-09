@@ -42,16 +42,12 @@ public /* rules */:
         return add_rule(token, [&dst, val]() { dst = val; });
     }
 
-//    template<typename T>
-//    tokeniser_t &add_rule_exec( const char *token )
-//    {
-
-//    }
-
 public /* generic parsers */:
     bool is_token( const char *token, bool is_mutable = false );
+    void expect_token( const char *token );
     bool is_fqn( bool is_mutable = false );
-    std::string read_fqn(const char *error_msg );
+    std::string read_fqn( const char *error_msg );
+    std::uint32_t read_u32( const char *error_msg );
 
 private:
     const char *&m_input;

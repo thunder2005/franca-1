@@ -39,6 +39,7 @@ state_t::state_t( const char *name, stm_t &stm )
     : m_input(nullptr)
     , m_name(name)
     , m_stm(stm)
+    , m_transition_occurred(false)
 {
 }
 
@@ -57,10 +58,10 @@ void state_t::handle_token( input_line_t &input )
         auto orig_input = m_input;
         handle_token();
 
-        /* If we did not advance at least one character, then we have an issue
-         * in STM, which leads to an infinite loop. This check prevents looping
-         * forever. */
-        if ( m_input == orig_input ) {
+        /* If we did not advance at least one character AND no state transition
+         * was done, then we have an issue in STM, which leads to an infinite loop.
+         * This check prevents looping forever. */
+        if ( (m_input == orig_input) && !m_transition_occurred ) {
             throw parse_error_t("Internal error: infinite loop detected.");
         }
     }
@@ -108,18 +109,21 @@ log_t state_t::error()
     return m_stm.parser().error();
 }
 
-void state_t::transit( const std::shared_ptr<state_t> &new_state ) const noexcept
+void state_t::transit( const std::shared_ptr<state_t> &new_state ) noexcept
 {
+    m_transition_occurred = true;
     m_stm.simple_transit(new_state);
 }
 
-void state_t::enter_substate( const std::shared_ptr<state_t> &new_state ) const noexcept
+void state_t::enter_substate( const std::shared_ptr<state_t> &new_state ) noexcept
 {
+    m_transition_occurred = true;
     m_stm.push_transit(new_state);
 }
 
-void state_t::leave_state() const noexcept
+void state_t::leave_state() noexcept
 {
+    m_transition_occurred = true;
     m_stm.pop_transit();
 }
 

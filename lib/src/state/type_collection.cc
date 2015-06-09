@@ -9,6 +9,7 @@
 
 // local includes:
 #include "tokeniser.hh"
+#include "state/version.hh"
 
 static const char s_type_collection_name_expected_msg[] = "A type collection name is expected.";
 static const char s_open_brace_expected_msg[] = "An openning brace is expected.";
@@ -33,10 +34,12 @@ void state::type_collection_t::handle_token()
 
     case subst_t::expect_optional_version:
         if ( tkn.is_token("version") ) {
-            raise_not_implemented("version");
+            enter_substate<state::version_t>();
+            break;
         }
+
         m_subst = subst_t::expect_types_or_close_brace;
-        break;
+        /* walk through */
 
     case subst_t::expect_types_or_close_brace:
         tkn.add_rule("}", [this]{ leave_state(); });

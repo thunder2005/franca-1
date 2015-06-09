@@ -65,18 +65,18 @@ protected:
 
 protected:
     template<typename T>
-    void transit() const noexcept
+    void transit() noexcept
     {
         transit(std::make_shared<T>(m_stm));
     }
 
     template<typename T>
-    void enter_substate() const noexcept
+    void enter_substate() noexcept
     {
         enter_substate(std::make_shared<T>(m_stm));
     }
 
-    void leave_state() const noexcept;
+    void leave_state() noexcept;
 
 protected:
     void raise_not_implemented( const char *feature_id = nullptr ) const;
@@ -86,12 +86,13 @@ protected:
     const char *m_input;
 
 private:
-    void transit( const std::shared_ptr<state_t> &new_state ) const noexcept;
-    void enter_substate( const std::shared_ptr<state_t> &new_state ) const noexcept;
+    void transit( const std::shared_ptr<state_t> &new_state ) noexcept;
+    void enter_substate( const std::shared_ptr<state_t> &new_state ) noexcept;
 
 private:
     const char *m_name;
     stm_t &m_stm;
+    bool m_transition_occurred;
 };
 
 } // namespace franca

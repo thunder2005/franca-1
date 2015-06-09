@@ -17,6 +17,7 @@ set(SOURCES
     src/state/package.cc
     src/state/types_or_iface.cc
     src/state/type_collection.cc
+    src/state/version.cc
 
     # ast:
     src/ast.cc

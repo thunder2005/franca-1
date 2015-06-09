@@ -10,7 +10,25 @@
 // local includes:
 #include "parse_error.hh"
 
+// std includes:
+#include <cerrno>
+#include <limits>
+
 using namespace franca;
+
+namespace {
+
+bool is_token_separator( char c )
+{
+    if ( std::isspace(c) )
+        return true;
+    switch ( c ) {
+    case '{':
+    case '}':
+        return true;
+    }
+    return false;
+}
 
 template<typename T, typename F>
 static std::string listify( const std::vector<T> &items, const F &func )
@@ -25,6 +43,50 @@ static std::string listify( const std::vector<T> &items, const F &func )
     }
     return ret;
 }
+
+template<typename T, bool = std::is_signed<T>()>
+struct strtox_traits_t
+{
+    using type = long long;
+    static type parse_func( const char *str, char **endp )
+    {
+        return std::strtoll(str, endp, 0);
+    }
+};
+
+template<typename T>
+struct strtox_traits_t<T, false>
+{
+    using type = unsigned long long;
+    static type parse_func( const char *str, char **endp )
+    {
+        return std::strtoull(str, endp, 0);
+    }
+};
+
+
+template<typename T>
+T read_int( const char *&input, const char *error_msg )
+{
+    static_assert(std::is_integral<T>(), "this function is for integral types only");
+    errno = 0;
+
+    char *endp;
+    auto value = strtox_traits_t<T>::parse_func(input, &endp);
+
+    if ( (errno != 0) ||               /* conversion error */
+         (endp == input) ||            /* no digits found */
+         !is_token_separator(*endp) || /* there is no token separator after */
+         (value < std::numeric_limits<T>::min()) ||
+         (value > std::numeric_limits<T>::max()) ) {
+        throw parse_error_t(std::string("Invalid integer. ") + error_msg);
+    }
+
+    input = endp;
+    return static_cast<T>(value);
+}
+
+} // anonymous namespace
 
 void tokeniser_t::exec_rules()
 {
@@ -53,6 +115,12 @@ bool tokeniser_t::is_token( const char *token, bool is_mutable )
     if ( is_valid_token && is_mutable )
         m_input = input;
     return is_valid_token;
+}
+
+void tokeniser_t::expect_token( const char *token )
+{
+    if ( !is_token(token, true) )
+        throw parse_error_t(std::string("This token expected: ") + token);
 }
 
 bool tokeniser_t::is_fqn( bool is_mutable )
@@ -87,4 +155,9 @@ std::string tokeniser_t::read_fqn( const char *error_msg )
         throw parse_error_t(std::string("Invalid FQN. ") + error_msg);
 
     return std::string(orig_input, m_input - orig_input);
+}
+
+std::uint32_t tokeniser_t::read_u32( const char *error_msg )
+{
+    return read_int<std::uint32_t>(m_input, error_msg);
 }
