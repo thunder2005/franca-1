@@ -54,7 +54,7 @@ void state_t::handle_token( input_line_t &input )
     goto_next_token();
 
     /* Call an implementation of the token handler of the specific state. */
-    if ( !input.is_eol() ) {
+    if ( *m_input != '\0' ) {
         auto orig_input = m_input;
         handle_token();
 
