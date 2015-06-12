@@ -38,6 +38,9 @@ public:
      */
     std::shared_ptr<ast_node_impl_t> ast_node() const noexcept;
 
+public:
+    virtual void apply_version( std::uint32_t major, std::uint32_t minor );
+
 protected:
     //! \internal
     class private_ctr {};

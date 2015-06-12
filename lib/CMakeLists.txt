@@ -18,6 +18,7 @@ set(SOURCES
     src/state/types_or_iface.cc
     src/state/type_collection.cc
     src/state/version.cc
+    src/state/typedef.cc
 
     # ast:
     src/ast.cc
@@ -29,6 +30,8 @@ set(SOURCES
     src/entity_impl.cc
     src/entity/package.cc
     src/entity/package_impl.cc
+    src/entity/type_collection.cc
+    src/entity/type_collection_impl.cc
 )
 
 set(HEADERS
@@ -44,7 +47,9 @@ set(PUBLIC_HEADERS
     include/franca/input_provider.hh
     include/franca/ast_node.hh
     include/franca/entity.hh
+    include/franca/entity/version.hh
     include/franca/entity/package.hh
+    include/franca/entity/type_collection.hh
 )
 
 add_library(franca SHARED

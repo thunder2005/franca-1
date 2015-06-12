@@ -10,6 +10,9 @@
 // local includes:
 #include "tokeniser.hh"
 #include "log.hh"
+#include "ast.hh"
+#include "ast_node_impl.hh"
+#include "entity_impl.hh"
 
 using namespace franca;
 
@@ -52,6 +55,7 @@ void state::version_t::handle_token()
         tkn.expect_token("}");
         debug() << "Version: major:" << m_major << log_enable_nospace_t() <<
                    "; minor: " << m_minor;
+        ast().top_node()->entity()->apply_version(m_major, m_minor);
         leave_state();
         break;
     }

@@ -8,8 +8,10 @@
 #include "type_collection.hh"
 
 // local includes:
+#include "ast.hh"
 #include "tokeniser.hh"
 #include "state/version.hh"
+#include "state/typedef.hh"
 
 static const char s_type_collection_name_expected_msg[] = "A type collection name is expected.";
 static const char s_open_brace_expected_msg[] = "An openning brace is expected.";
@@ -23,7 +25,8 @@ void state::type_collection_t::handle_token()
 
     switch ( m_subst ) {
     case subst_t::expect_type_collection_name:
-        tkn.read_fqn(s_type_collection_name_expected_msg);
+        ast().start_type_collection(
+                    tkn.read_fqn(s_type_collection_name_expected_msg));
         m_subst = subst_t::expect_open_brace;
         break;
 
@@ -42,7 +45,8 @@ void state::type_collection_t::handle_token()
         /* walk through */
 
     case subst_t::expect_types_or_close_brace:
-        tkn.add_rule("}", [this]{ leave_state(); });
+        tkn.add_rule("}", [this]{ ast().pop_node(); leave_state(); });
+        tkn.add_rule("typedef", [this]{ enter_substate<state::typedef_t>(); });
         tkn.exec_rules();
         break;
     }

@@ -12,6 +12,7 @@
 #include "log.hh"
 #include "ast_node_impl.hh"
 #include "entity/package_impl.hh"
+#include "entity/type_collection_impl.hh"
 
 // std includes:
 #include <cassert>
@@ -36,6 +37,18 @@ void ast_t::set_active_package( const std::string &fqn )
                              ast_flag_t::push);
 
     node->bind_entity(m_active_package);
+}
+
+void ast_t::start_type_collection( const std::string &fqn )
+{
+    m_parser.debug() << "TypeCollection:" << log_quote_t() << fqn;
+
+    auto type_collection = entity::type_collection_impl_t::create();
+    auto node = node_at(fqn, ast_flag_t::create_recursive |
+                             ast_flag_t::free |
+                             ast_flag_t::push);
+
+    node->bind_entity(type_collection);
 }
 
 std::shared_ptr<ast_node_impl_t>

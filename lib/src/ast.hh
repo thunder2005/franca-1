@@ -41,6 +41,8 @@ public:
         return m_active_package;
     }
 
+    void start_type_collection( const std::string &fqn );
+
 public:
     /*!
      * \brief Get a node with a given FQN.
