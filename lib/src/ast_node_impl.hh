@@ -125,7 +125,7 @@ public:
      */
     void rebase( const std::shared_ptr<ast_node_impl_t> &new_parent );
 
-    std::shared_ptr<ast_node_impl_t> subnode_at( const std::string &fqn, ast_flags_t flags = ast_flags_t() );
+    std::shared_ptr<ast_node_impl_t> subnode_at( const std::string &fqn, ast_flags_t flags = ast_flags_t() ) noexcept;
 
 private:
     const std::string m_name;

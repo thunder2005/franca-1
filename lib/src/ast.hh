@@ -10,6 +10,7 @@
 #include <string>
 #include <memory>
 #include <stack>
+#include <map>
 
 // local includes:
 #include "ast_flags.hh"
@@ -21,6 +22,7 @@ class ast_node_impl_t;
 
 namespace entity {
 class package_impl_t;
+class type_impl_t;
 } // namespace entity
 
 /*!
@@ -43,6 +45,9 @@ public:
 
     void start_type_collection( const std::string &fqn );
 
+    void add_predefined_type( const std::shared_ptr<entity::type_impl_t> &type );
+    std::shared_ptr<entity::type_impl_t> type(const std::string &fqn ) noexcept;
+
 public:
     /*!
      * \brief Get a node with a given FQN.
@@ -56,7 +61,7 @@ public:
      * for a detailed description.
      */
     std::shared_ptr<ast_node_impl_t>
-            node_at( const std::string &fqn, ast_flags_t flags );
+            node_at( const std::string &fqn, ast_flags_t flags ) noexcept;
 
     /*!
      * \brief Get a current top node.
@@ -76,6 +81,7 @@ private:
 
 private:
     std::shared_ptr<entity::package_impl_t> m_active_package;
+    std::map<std::string, std::shared_ptr<entity::type_impl_t>> m_predefined_types;
 };
 
 } // namespace franca

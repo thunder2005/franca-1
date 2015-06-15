@@ -20,9 +20,10 @@ namespace {
 
 bool is_token_separator( char c )
 {
-    if ( std::isspace(c) )
-        return true;
     switch ( c ) {
+    case 0:
+    case ' ':
+    case '\t':
     case '{':
     case '}':
         return true;
@@ -111,7 +112,7 @@ bool tokeniser_t::is_token( const char *token, bool is_mutable )
             return false;
     }
 
-    const bool is_valid_token = !(*token || std::isalnum(*input));
+    const bool is_valid_token = !*token && is_token_separator(*input);
     if ( is_valid_token && is_mutable )
         m_input = input;
     return is_valid_token;
@@ -141,7 +142,7 @@ bool tokeniser_t::is_fqn( bool is_mutable )
         input++;
     }
 
-    const bool is_valid_fqn = !std::isalnum(*input);
+    const bool is_valid_fqn = is_token_separator(*input);
     if ( is_valid_fqn && is_mutable )
         m_input = input;
     return is_valid_fqn;
@@ -153,6 +154,33 @@ std::string tokeniser_t::read_fqn( const char *error_msg )
 
     if ( !is_fqn(true) )
         throw parse_error_t(std::string("Invalid FQN. ") + error_msg);
+
+    return std::string(orig_input, m_input - orig_input);
+}
+
+bool tokeniser_t::is_typename( bool is_mutable )
+{
+    const char *input = m_input;
+
+    // first symbol should be a letter:
+    if ( !std::isalpha(*input) )
+        return false;
+
+    // the rest can be digits or letters:
+    while ( std::isalnum(*(++input)) );
+
+    const bool is_valid_typename = is_token_separator(*input);
+    if ( is_valid_typename && is_mutable )
+        m_input = input;
+    return is_valid_typename;
+}
+
+std::string tokeniser_t::read_typename( const char *error_msg )
+{
+    const char *orig_input = m_input;
+
+    if ( !is_typename(true) )
+        throw parse_error_t(std::string("Invalid type name. ") + error_msg);
 
     return std::string(orig_input, m_input - orig_input);
 }

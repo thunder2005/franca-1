@@ -47,6 +47,8 @@ public /* generic parsers */:
     void expect_token( const char *token );
     bool is_fqn( bool is_mutable = false );
     std::string read_fqn( const char *error_msg );
+    bool is_typename( bool is_mutable = false );
+    std::string read_typename( const char *error_msg );
     std::uint32_t read_u32( const char *error_msg );
 
 private:

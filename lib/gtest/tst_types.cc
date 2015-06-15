@@ -31,3 +31,13 @@ TEST_F(tst_type_collection, empty_with_version)
             "}\n";
     ASSERT_TRUE(parse(fidl));
 }
+
+TEST_F(tst_type_collection, typedef)
+{
+    const char fidl[] =
+            "package tstTypeCollection.typedef\n"
+            "typeCollection tc \n{\n"
+            "    typedef myInt is UInt32\n"
+            "}\n";
+    ASSERT_TRUE(parse(fidl));
+}

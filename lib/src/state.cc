@@ -145,3 +145,13 @@ void state_t::raise_unexpected_eof( const char *what_expected ) const
         throw parse_error_t("Unexpected EOF.");
     }
 }
+
+void state_t::raise_type_exists( const char *tname ) const
+{
+    throw parse_error_t(std::string("Type '") + tname + "` already exists.");
+}
+
+void state_t::raise_type_not_found( const char *tname ) const
+{
+    throw parse_error_t(std::string("Type '") + tname + "` is not found.");
+}

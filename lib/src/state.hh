@@ -81,6 +81,8 @@ protected:
 protected:
     void raise_not_implemented( const char *feature_id = nullptr ) const;
     void raise_unexpected_eof( const char *what_expected ) const;
+    void raise_type_exists( const char *tname ) const;
+    void raise_type_not_found( const char *tname ) const;
 
 protected:
     const char *m_input;

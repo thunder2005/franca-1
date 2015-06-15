@@ -24,6 +24,10 @@ public:
     /* virtual */ void handle_eof() override;
 
 private:
+    void process_new_typename( const std::string &tname );
+    void process_existing_typename( const std::string &tname );
+
+private:
     std::string m_new_typename;
 };
 
