@@ -16,3 +16,6 @@ add_compile_options(-fno-omit-frame-pointer -fstrict-aliasing)
 enable_testing()
 add_subdirectory(francac)
 add_subdirectory(lib)
+
+# to add this file to IDE:
+add_custom_target(readme_txt SOURCES README.md)
