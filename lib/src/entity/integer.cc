@@ -5,16 +5,21 @@
  ******************************************************************************/
 
 // self-include:
-#include "franca/entity/type_collection.hh"
+#include "franca/entity/integer.hh"
 
 // local includes:
-#include "entity/type_collection_impl.hh"
+#include "entity/integer_impl.hh"
 
-DEFINE_ENTITY(type_collection_t, type_collection_impl_t)
+DEFINE_ENTITY(integer_t, integer_impl_t)
 
 using namespace franca;
 
-entity::version_t entity::type_collection_t::version() const noexcept
+bool entity::integer_t::is_signed() const noexcept
 {
-    return impl()->version();
+    return impl()->is_signed();
+}
+
+entity::integer_size_t entity::integer_t::size() const noexcept
+{
+    return impl()->size();
 }

@@ -4,17 +4,27 @@
  *                                                                            *
  ******************************************************************************/
 
-// self-include:
-#include "franca/entity/type_collection.hh"
+#pragma once
 
-// local includes:
-#include "entity/type_collection_impl.hh"
+// parent include:
+#include "franca/entity.hh"
 
-DEFINE_ENTITY(type_collection_t, type_collection_impl_t)
+// franca includes:
+#include "franca/entity/integer_size.hh"
 
-using namespace franca;
+namespace franca {
+namespace entity {
 
-entity::version_t entity::type_collection_t::version() const noexcept
+class integer_impl_t;
+
+class integer_t final: public entity_t
 {
-    return impl()->version();
-}
+    DECL_ENTITY(integer_t, integer_impl_t)
+
+public:
+    integer_size_t size() const noexcept;
+    bool is_signed() const noexcept;
+};
+
+} // namespace entity
+} // namespace franca

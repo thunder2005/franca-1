@@ -13,6 +13,7 @@
 #include "ast_node_impl.hh"
 #include "entity/package_impl.hh"
 #include "entity/type_collection_impl.hh"
+#include "entity/integer_impl.hh"
 
 // std includes:
 #include <cassert>
@@ -24,6 +25,9 @@ ast_t::ast_t( parser_impl_t &parser )
     , m_root(ast_node_impl_t::create_root())
 {
     m_node_stack.push(m_root);
+
+    m_predefined_types.insert({"UInt32", entity::integer_impl_t::create(
+                                  false, entity::integer_size_t::int_32)});
 }
 
 void ast_t::set_active_package( const std::string &fqn )

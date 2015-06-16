@@ -32,6 +32,9 @@ set(SOURCES
     src/entity/package_impl.cc
     src/entity/type_collection.cc
     src/entity/type_collection_impl.cc
+    src/entity/type_impl.hh
+    src/entity/integer.cc
+    src/entity/integer_impl.cc
 )
 
 set(HEADERS
@@ -50,6 +53,8 @@ set(PUBLIC_HEADERS
     include/franca/entity/version.hh
     include/franca/entity/package.hh
     include/franca/entity/type_collection.hh
+    include/franca/entity/integer.hh
+    include/franca/entity/integer_size.hh
 )
 
 add_library(franca SHARED

@@ -14,6 +14,21 @@ namespace franca {
 class ast_node_t;
 class entity_impl_t;
 
+#define DECL_ENTITY(__class, __impl)                                           \
+    private:                                                                   \
+        friend class __impl;                                                   \
+        explicit __class( const std::shared_ptr<__impl> &impl );               \
+        const __impl *impl() const noexcept;
+
+#define DEFINE_ENTITY(__class, __impl)                                         \
+    franca::entity::__class::__class(                                          \
+            const std::shared_ptr<franca::entity::__impl> &impl )              \
+        : entity_t(impl) {}                                                    \
+    const franca::entity::__impl *franca::entity::__class::impl() const noexcept\
+    {                                  \
+        return static_cast<__impl*>(m_impl.get());                         \
+    }
+
 class entity_t
 {
 public:
