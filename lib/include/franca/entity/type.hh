@@ -7,21 +7,16 @@
 #pragma once
 
 // parent include:
-#include "entity_impl.hh"
+#include "franca/entity.hh"
 
 namespace franca {
 namespace entity {
 
-class type_t;
+class type_impl_t;
 
-class type_impl_t
-        : public entity_impl_t
-        , public std::enable_shared_from_this<type_impl_t>
+class type_t: public entity_t
 {
-    using entity_impl_t::entity_impl_t;
-
-public:
-    type_t interface() noexcept;
+    DECL_FRANCA_ENTITY(type_t, type_impl_t)
 };
 
 } // namespace entity

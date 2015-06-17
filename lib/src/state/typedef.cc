@@ -10,6 +10,7 @@
 // local includes:
 #include "tokeniser.hh"
 #include "ast.hh"
+#include "entity/typedef_impl.hh"
 
 using namespace franca;
 
@@ -44,8 +45,8 @@ void state::typedef_t::handle_eof()
 
 void state::typedef_t::process_new_typename( const std::string &tname )
 {
-    auto type = ast().type(tname);
-    if ( type /* == exists */ ) {
+    auto type_node = ast().node_at(tname);
+    if ( type_node /* == exists */ ) {
         raise_type_exists(tname.c_str());
     }
     m_new_typename = tname;
@@ -57,5 +58,7 @@ void state::typedef_t::process_existing_typename( const std::string &tname )
     if ( !type /* == not exists */ ) {
         raise_type_not_found(tname.c_str());
     }
-    raise_not_implemented("typedef");
+
+    auto typedef_entity = entity::typedef_impl_t::create(type);
+    ast().add_type(m_new_typename, typedef_entity);
 }

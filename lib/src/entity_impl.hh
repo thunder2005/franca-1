@@ -9,6 +9,18 @@
 // std includes:
 #include <memory>
 
+#define DECL_FRANCA_ENTITY_IMPL_WARGS(__iface, __impl, ...)                    \
+    public:                                                                    \
+        static std::shared_ptr<__impl> create( __VA_ARGS__ );                  \
+        explicit __impl( private_ctr, __VA_ARGS__ );                           \
+        __iface interface() noexcept;
+
+#define DECL_FRANCA_ENTITY_IMPL(__iface, __impl)                               \
+    public:                                                                    \
+        static std::shared_ptr<__impl> create();                               \
+        explicit __impl( private_ctr);                                         \
+        __iface interface() noexcept;
+
 namespace franca {
 
 class ast_node_impl_t;

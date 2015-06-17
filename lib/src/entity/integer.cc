@@ -10,7 +10,7 @@
 // local includes:
 #include "entity/integer_impl.hh"
 
-DEFINE_ENTITY(integer_t, integer_impl_t)
+DEFINE_FRANCA_ENTITY(integer_t, integer_impl_t, type_t)
 
 using namespace franca;
 

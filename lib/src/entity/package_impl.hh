@@ -18,21 +18,7 @@ class package_impl_t final
         : public entity_impl_t
         , public std::enable_shared_from_this<package_impl_t>
 {
-public:
-    /*!
-     * \brief Create a package entity.
-     * \return A shared pointer to a constructed entity.
-     *
-     * This function constructs a package entity.
-     */
-    static std::shared_ptr<package_impl_t> create();
-
-    //! \internal
-    explicit package_impl_t( private_ctr );
-
-public:
-    //! Create a public interface object.
-    package_t interface() noexcept;
+    DECL_FRANCA_ENTITY_IMPL(package_t, package_impl_t)
 };
 
 } // namespace entity

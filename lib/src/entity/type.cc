@@ -4,25 +4,10 @@
  *                                                                            *
  ******************************************************************************/
 
-#pragma once
+// self-include:
+#include "franca/entity/type.hh"
 
-// parent include:
-#include "entity_impl.hh"
+// local includes:
+#include "entity/type_impl.hh"
 
-namespace franca {
-namespace entity {
-
-class type_t;
-
-class type_impl_t
-        : public entity_impl_t
-        , public std::enable_shared_from_this<type_impl_t>
-{
-    using entity_impl_t::entity_impl_t;
-
-public:
-    type_t interface() noexcept;
-};
-
-} // namespace entity
-} // namespace franca
+DEFINE_FRANCA_ENTITY(type_t, type_impl_t, entity_t)

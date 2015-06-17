@@ -10,7 +10,7 @@
 // local includes:
 #include "entity/type_collection_impl.hh"
 
-DEFINE_ENTITY(type_collection_t, type_collection_impl_t)
+DEFINE_FRANCA_ENTITY(type_collection_t, type_collection_impl_t, entity_t)
 
 using namespace franca;
 

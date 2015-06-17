@@ -45,7 +45,7 @@ public:
 
     void start_type_collection( const std::string &fqn );
 
-    void add_predefined_type( const std::shared_ptr<entity::type_impl_t> &type );
+    void add_type( const std::string &fqn, const std::shared_ptr<entity::type_impl_t> &type );
     std::shared_ptr<entity::type_impl_t> type(const std::string &fqn ) noexcept;
 
 public:
@@ -61,7 +61,7 @@ public:
      * for a detailed description.
      */
     std::shared_ptr<ast_node_impl_t>
-            node_at( const std::string &fqn, ast_flags_t flags ) noexcept;
+            node_at( const std::string &fqn, ast_flags_t flags = ast_flags_t() ) noexcept;
 
     /*!
      * \brief Get a current top node.
