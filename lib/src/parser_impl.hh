@@ -20,6 +20,7 @@ class log_t;
 class input_provider_t;
 class stm_t;
 class ast_t;
+class ast_visitor_t;
 
 namespace entity {
 class package_impl_t;
@@ -40,6 +41,7 @@ public:
     void set_input_provider( const std::shared_ptr<input_provider_t> &input );
     bool parse() noexcept;
     std::vector<std::shared_ptr<entity::package_impl_t>> packages() const noexcept;
+    void visit_all_dfs( ast_visitor_t &visitor ) const;
 
 public:
     log_t debug();

@@ -13,17 +13,30 @@
     public:                                                                    \
         static std::shared_ptr<__impl> create( __VA_ARGS__ );                  \
         explicit __impl( private_ctr, __VA_ARGS__ );                           \
-        __iface interface() noexcept;
+        __iface interface() noexcept;                                          \
+        void accept_visitor( ast_visitor_t &visitor ) override;
 
 #define DECL_FRANCA_ENTITY_IMPL(__iface, __impl)                               \
     public:                                                                    \
         static std::shared_ptr<__impl> create();                               \
-        explicit __impl( private_ctr);                                         \
-        __iface interface() noexcept;
+        explicit __impl( private_ctr );                                        \
+        __iface interface() noexcept;                                          \
+        void accept_visitor( ast_visitor_t &visitor ) override;
+
+#define DEFINE_FRANCA_ENTITY_IMPL(__iface, __impl)                             \
+    franca::entity::__iface franca::entity::__impl::interface() noexcept       \
+    {                                                                          \
+        return __iface(std::static_pointer_cast<__impl>(shared_from_this()));  \
+    }                                                                          \
+    void franca::entity::__impl::accept_visitor( ast_visitor_t &visitor )      \
+    {                                                                          \
+        visitor.visit(interface());                                            \
+    }
 
 namespace franca {
 
 class ast_node_impl_t;
+class ast_visitor_t;
 
 class entity_impl_t
 {
@@ -52,6 +65,7 @@ public:
 
 public:
     virtual void apply_version( std::uint32_t major, std::uint32_t minor );
+    virtual void accept_visitor( ast_visitor_t &visitor ) = 0;
 
 protected:
     //! \internal

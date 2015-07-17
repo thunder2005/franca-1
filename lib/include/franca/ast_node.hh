@@ -15,6 +15,7 @@ namespace franca {
 
 class ast_node_impl_t;
 class entity_t;
+class ast_visitor_t;
 
 //! AST node.
 class ast_node_t final
@@ -40,6 +41,9 @@ public:
 
     //! Check if the node has an associated entity.
     bool has_entity() const;
+
+    //! Accept a visitor.
+    void accept_visitor( ast_visitor_t &visitor );
 
 private:
     friend class ast_node_impl_t;

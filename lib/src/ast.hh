@@ -74,6 +74,12 @@ public:
      */
     void pop_node();
 
+    /*!
+     * \brief Get a root node.
+     * \return Root node.
+     */
+    std::shared_ptr<ast_node_impl_t> root_node() const;
+
 private:
     parser_impl_t &m_parser;
     std::shared_ptr<ast_node_impl_t> m_root;

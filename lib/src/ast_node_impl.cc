@@ -12,6 +12,7 @@
 
 // franca includes:
 #include "franca/ast_node.hh"
+#include "franca/ast_visitor.hh"
 
 // std includes:
 #include <cassert>
@@ -152,5 +153,14 @@ std::shared_ptr<ast_node_impl_t>
         } else {
             return nullptr; // Some nodes for the given FQN do not exist
         }
+    }
+}
+
+void ast_node_impl_t::accept_visitor( ast_visitor_t &visitor )
+{
+    if ( m_entity ) {
+        m_entity->accept_visitor(visitor);
+    } else {
+        visitor.visit(interface());
     }
 }

@@ -9,24 +9,22 @@
 
 // franca includes:
 #include "franca/entity/type_collection.hh"
+#include "franca/ast_visitor.hh"
 
-using namespace franca;
+DEFINE_FRANCA_ENTITY_IMPL(type_collection_t, type_collection_impl_t)
 
-std::shared_ptr<entity::type_collection_impl_t> entity::type_collection_impl_t::create()
+using namespace franca::entity;
+
+std::shared_ptr<type_collection_impl_t> type_collection_impl_t::create()
 {
-    return std::make_shared<entity::type_collection_impl_t>(private_ctr{});
+    return std::make_shared<type_collection_impl_t>(private_ctr{});
 }
 
-entity::type_collection_impl_t::type_collection_impl_t( private_ctr )
+type_collection_impl_t::type_collection_impl_t( private_ctr )
 {
 }
 
-entity::type_collection_t entity::type_collection_impl_t::interface() noexcept
-{
-    return entity::type_collection_t(shared_from_this());
-}
-
-void entity::type_collection_impl_t::apply_version( std::uint32_t major, std::uint32_t minor )
+void type_collection_impl_t::apply_version( std::uint32_t major, std::uint32_t minor )
 {
     m_version = { major, minor };
 }

@@ -41,3 +41,17 @@ TEST_F(tst_type_collection, typedef)
             "}\n";
     ASSERT_TRUE(parse(fidl));
 }
+
+TEST_F(tst_type_collection, typedef_sanity_visitor)
+{
+    const char fidl[] =
+            "package tstTypeCollection.typedef.visitor\n"
+            "typeCollection tc \n{\n"
+            "    typedef myLong  is UInt32\n"
+            "    typedef myShort is UInt16\n"
+            "}\n";
+    ASSERT_TRUE(parse(fidl));
+
+    test_printing_visitor_t visitor;
+    parser().visit_all_dfs(visitor);
+}

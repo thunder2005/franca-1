@@ -12,6 +12,7 @@
 #include "stm.hh"
 #include "parse_error.hh"
 #include "ast.hh"
+#include "ast_node_impl.hh"
 
 // franca includes:
 #include "franca/logger.hh"
@@ -95,6 +96,20 @@ std::vector<std::shared_ptr<entity::package_impl_t> > parser_impl_t::packages() 
     } else {
         return {};
     }
+}
+
+static void visit_all_dfs( const std::shared_ptr<ast_node_impl_t> &node, ast_visitor_t &visitor )
+{
+    node->accept_visitor(visitor);
+    const auto &children = node->children();
+    for ( const auto &child : children ) {
+        visit_all_dfs(child.second, visitor);
+    }
+}
+
+void parser_impl_t::visit_all_dfs( ast_visitor_t &visitor ) const
+{
+    ::visit_all_dfs(m_ast->root_node(), visitor);
 }
 
 log_t parser_impl_t::debug()

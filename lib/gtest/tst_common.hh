@@ -13,6 +13,7 @@
 #include <franca/parser.hh>
 #include <franca/logger.hh>
 #include <franca/input_provider.hh>
+#include <franca/ast_visitor.hh>
 
 // std includes:
 #include <sstream>
@@ -37,6 +38,15 @@ public:
 
 private:
     std::istringstream m_stream;
+};
+
+class test_printing_visitor_t: public franca::ast_visitor_t
+{
+    /* virtual */ void visit( const ast_node_t &node ) override;
+    /* virtual */ void visit( const entity::package_t &package ) override;
+    /* virtual */ void visit( const entity::type_collection_t &tc ) override;
+    /* virtual */ void visit( const entity::typedef_t &type ) override;
+    /* virtual */ void visit( const entity::integer_t &type ) override;
 };
 
 /*!

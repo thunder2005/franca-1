@@ -9,6 +9,9 @@
 
 // franca includes:
 #include "franca/entity/integer.hh"
+#include "franca/ast_visitor.hh"
+
+DEFINE_FRANCA_ENTITY_IMPL(integer_t, integer_impl_t)
 
 using namespace franca::entity;
 
@@ -22,11 +25,6 @@ integer_impl_t::integer_impl_t( private_ctr, bool is_signed, integer_size_t size
     : m_is_signed(is_signed)
     , m_size(size)
 {
-}
-
-integer_t integer_impl_t::interface() noexcept
-{
-    return integer_t(std::static_pointer_cast<integer_impl_t>(shared_from_this()));
 }
 
 bool integer_impl_t::is_signed() const noexcept

@@ -52,6 +52,7 @@ set(PUBLIC_HEADERS
     include/franca/logger.hh
     include/franca/input_provider.hh
     include/franca/ast_node.hh
+    include/franca/ast_visitor.hh
     include/franca/entity.hh
     include/franca/entity/version.hh
     include/franca/entity/package.hh

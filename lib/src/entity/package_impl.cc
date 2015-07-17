@@ -9,19 +9,17 @@
 
 // franca includes:
 #include "franca/entity/package.hh"
+#include "franca/ast_visitor.hh"
 
-using namespace franca;
+DEFINE_FRANCA_ENTITY_IMPL(package_t, package_impl_t)
 
-std::shared_ptr<entity::package_impl_t> entity::package_impl_t::create()
+using namespace franca::entity;
+
+std::shared_ptr<package_impl_t> package_impl_t::create()
 {
-    return std::make_shared<entity::package_impl_t>(private_ctr{});
+    return std::make_shared<package_impl_t>(private_ctr{});
 }
 
-entity::package_impl_t::package_impl_t( private_ctr )
+package_impl_t::package_impl_t( private_ctr )
 {
-}
-
-entity::package_t entity::package_impl_t::interface() noexcept
-{
-    return entity::package_t(shared_from_this());
 }

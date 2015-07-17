@@ -10,7 +10,11 @@
 // franca includes:
 #include <franca/logger.hh>
 #include <franca/input_provider.hh>
+#include <franca/ast_node.hh>
 #include <franca/entity/package.hh>
+#include <franca/entity/integer.hh>
+#include <franca/entity/type_collection.hh>
+#include <franca/entity/typedef.hh>
 
 using namespace franca;
 
@@ -33,6 +37,31 @@ std::string test_input_provider_t::name() const noexcept
 std::istream &test_input_provider_t::stream() noexcept
 {
     return m_stream;
+}
+
+void test_printing_visitor_t::visit( const ast_node_t &node )
+{
+    std::cout << "AST: " << node.fqn() << " [node]" << std::endl;
+}
+
+void test_printing_visitor_t::visit( const entity::package_t &package )
+{
+    std::cout << "AST: " << package.fqn() << " [package]" << std::endl;
+}
+
+void test_printing_visitor_t::visit( const entity::type_collection_t &tc )
+{
+    std::cout << "AST: " << tc.fqn() << " [typeCollection]" << std::endl;
+}
+
+void test_printing_visitor_t::visit( const entity::typedef_t &type )
+{
+    std::cout << "AST: " << type.fqn() << " [type/typedef]" << std::endl;
+}
+
+void test_printing_visitor_t::visit(const entity::integer_t &type )
+{
+    std::cout << "AST: " << type.fqn() << " [type/int]" << std::endl;
 }
 
 void test_t::SetUp()

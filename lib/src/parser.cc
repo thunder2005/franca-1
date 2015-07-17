@@ -51,3 +51,8 @@ std::vector<entity::package_t> parser_t::packages() const noexcept
 
     return result;
 }
+
+void parser_t::visit_all_dfs( ast_visitor_t &visitor ) const
+{
+    m_impl->visit_all_dfs(visitor);
+}

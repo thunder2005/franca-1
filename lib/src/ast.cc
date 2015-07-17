@@ -126,3 +126,8 @@ void ast_t::pop_node()
 {
     m_node_stack.pop();
 }
+
+std::shared_ptr<ast_node_impl_t> ast_t::root_node() const
+{
+    return m_root;
+}

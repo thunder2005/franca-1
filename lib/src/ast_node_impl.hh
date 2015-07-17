@@ -18,6 +18,7 @@ namespace franca {
 
 class ast_node_t;
 class entity_impl_t;
+class ast_visitor_t;
 
 /*!
  * \brief AST node (implementation).
@@ -126,6 +127,13 @@ public:
     void rebase( const std::shared_ptr<ast_node_impl_t> &new_parent );
 
     std::shared_ptr<ast_node_impl_t> subnode_at( const std::string &fqn, ast_flags_t flags = ast_flags_t() ) noexcept;
+
+public:
+    /*!
+     * \brief Accept an AST visitor.
+     * \param visitor AST visitor class.
+     */
+    void accept_visitor( ast_visitor_t &visitor );
 
 private:
     const std::string m_name;
