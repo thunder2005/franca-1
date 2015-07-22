@@ -68,6 +68,12 @@ void ast_t::start_type_collection( const std::string &fqn )
     node->bind_entity(type_collection);
 }
 
+void ast_t::start_interface( const std::string &fqn )
+{
+    m_parser.debug() << "Interface:" << log_quote_t() << fqn;
+    /* todo: create interface entity */
+}
+
 void ast_t::add_type( const std::string &fqn, const std::shared_ptr<entity::type_impl_t> &type )
 {
     m_parser.debug() << "AddType:" << log_quote_t() << fqn;

@@ -4,21 +4,21 @@
  *                                                                            *
  ******************************************************************************/
 
-#pragma once
-
 // parent include:
-#include "state.hh"
+#include "tst_common.hh"
 
-namespace franca {
-namespace state {
+using namespace franca;
 
-class types_or_iface_t final: public state_t
+class tst_interface: public test_t
 {
-    DECL_PARSER_STATE_CTR(types_or_iface_t)
-
-public:
-    /* virtual */ void handle_token() override;
 };
 
-} // namespace state
-} // namespace franca
+TEST_F(tst_interface, with_one_method)
+{
+    const char fidl[] =
+            "package test.interfaces\n"
+            "interface Summator  { \n"
+            "    method Add { in{Int64 a\n"
+            "                    Int64 b}out\n\t{Int64 c}}}\n";
+    ASSERT_TRUE(parse(fidl));
+}

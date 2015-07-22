@@ -44,6 +44,7 @@ public:
     }
 
     void start_type_collection( const std::string &fqn );
+    void start_interface( const std::string &fqn );
 
     void add_type( const std::string &fqn, const std::shared_ptr<entity::type_impl_t> &type );
     std::shared_ptr<entity::type_impl_t> type(const std::string &fqn ) noexcept;

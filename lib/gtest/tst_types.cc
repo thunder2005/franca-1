@@ -32,6 +32,17 @@ TEST_F(tst_type_collection, empty_with_version)
     ASSERT_TRUE(parse(fidl));
 }
 
+TEST_F(tst_type_collection, empty_with_two_versions)
+{
+    const char fidl[] =
+            "package package\n"
+            "typeCollection tc {\n"
+            "    version { major 1 minor 0 }\n"
+            "    version { major 2 minor 0 }\n"
+            "}\n";
+    ASSERT_FALSE(parse(fidl));
+}
+
 TEST_F(tst_type_collection, typedef)
 {
     const char fidl[] =

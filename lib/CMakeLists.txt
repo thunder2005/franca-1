@@ -19,6 +19,7 @@ set(SOURCES
     src/state/type_collection.cc
     src/state/version.cc
     src/state/typedef.cc
+    src/state/interface.cc
 
     # ast:
     src/ast.cc

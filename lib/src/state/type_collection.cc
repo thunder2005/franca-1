@@ -36,12 +36,11 @@ void state::type_collection_t::handle_token()
         break;
 
     case subst_t::expect_optional_version:
+        m_subst = subst_t::expect_types_or_close_brace;
         if ( tkn.is_token("version") ) {
             enter_substate<state::version_t>();
             break;
         }
-
-        m_subst = subst_t::expect_types_or_close_brace;
         /* walk through */
 
     case subst_t::expect_types_or_close_brace:
