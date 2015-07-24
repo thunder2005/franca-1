@@ -20,6 +20,7 @@ set(SOURCES
     src/state/version.cc
     src/state/typedef.cc
     src/state/interface.cc
+    src/state/method.cc
 
     # ast:
     src/ast.cc

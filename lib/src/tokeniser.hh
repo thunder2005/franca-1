@@ -45,6 +45,8 @@ public /* rules */:
 public /* generic parsers */:
     bool is_token( const char *token, bool is_mutable = false );
     void expect_token( const char *token );
+    bool is_punct( char punct, bool is_mutable = false );
+    void expect_punct( char punct );
     bool is_fqn( bool is_mutable = false );
     std::string read_fqn( const char *error_msg );
     bool is_typename( bool is_mutable = false );

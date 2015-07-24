@@ -13,6 +13,7 @@
 // std includes:
 #include <cerrno>
 #include <limits>
+#include <cassert>
 
 using namespace franca;
 
@@ -20,15 +21,7 @@ namespace {
 
 bool is_token_separator( char c )
 {
-    switch ( c ) {
-    case 0:
-    case ' ':
-    case '\t':
-    case '{':
-    case '}':
-        return true;
-    }
-    return false;
+    return !c || std::isspace(c) || std::ispunct(c);
 }
 
 template<typename T, typename F>
@@ -105,9 +98,18 @@ void tokeniser_t::exec_rules()
 
 bool tokeniser_t::is_token( const char *token, bool is_mutable )
 {
+    assert(*token);
+
+    // special case for punctuation / separators:
+    if ( std::ispunct(*token) ) {
+        assert(!token[1]);
+        return is_punct(*token, is_mutable);
+    }
+
     const char *input = m_input;
 
     while ( *input && *token ) {
+        assert(!is_token_separator(*token));
         if ( *(input++) != *(token++) )
             return false;
     }
@@ -122,6 +124,27 @@ void tokeniser_t::expect_token( const char *token )
 {
     if ( !is_token(token, true) )
         throw parse_error_t(std::string("This token expected: ") + token);
+}
+
+bool tokeniser_t::is_punct( char punct, bool is_mutable )
+{
+    assert(std::ispunct(punct));
+
+    if ( *m_input != punct ) {
+        return false;
+    }
+
+    if ( is_mutable ) {
+        m_input++;
+    }
+
+    return true;
+}
+
+void tokeniser_t::expect_punct( char punct )
+{
+    if ( !is_punct(punct, true) )
+        throw parse_error_t(std::string("This token expected: ") + punct);
 }
 
 bool tokeniser_t::is_fqn( bool is_mutable )

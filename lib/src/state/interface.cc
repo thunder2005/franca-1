@@ -11,6 +11,7 @@
 #include "ast.hh"
 #include "tokeniser.hh"
 #include "state/version.hh"
+#include "state/method.hh"
 
 using namespace franca;
 
@@ -48,7 +49,7 @@ void state::interface_t::handle_token()
 
     case subst_t::expect_method:
         if ( tkn.is_token("method") ) {
-            raise_not_implemented("method");
+            enter_substate<state::method_t>();
             break;
         }
         m_subst = subst_t::expect_broadcast;
