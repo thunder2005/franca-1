@@ -12,6 +12,11 @@
 #include <iostream>
 #include <sstream>
 
+// local includes:
+#include "config.hh"
+
+namespace {
+
 class stdout_logger_t final: public franca::logger_t
 {
     void print( std::ostringstream &stream ) noexcept override
@@ -20,10 +25,18 @@ class stdout_logger_t final: public franca::logger_t
     }
 };
 
-int main()
-{
-    franca::parser_t parser;
-    parser.set_logger(std::make_shared<stdout_logger_t>());
+config_t s_config;
+franca::parser_t s_parser;
 
-    return 0;
+} // anonymous namespace
+
+int main( int argc, char *argv[] )
+{
+    if ( !s_config.process_args(argc, argv) ) {
+        s_config.print_usage();
+        return EXIT_FAILURE;
+    }
+    s_config.dump();
+
+    return EXIT_SUCCESS;
 }

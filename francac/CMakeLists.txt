@@ -5,7 +5,8 @@
  ###############################################################################
 
 set(SOURCES
-    main.cc
+    src/main.cc
+    src/config.cc
 )
 
 add_executable(francac
