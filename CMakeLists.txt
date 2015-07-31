@@ -17,5 +17,6 @@ enable_testing()
 add_subdirectory(francac)
 add_subdirectory(lib)
 
-# to add this file to IDE:
+# to add these files to IDE:
 add_custom_target(readme_txt SOURCES README.md)
+add_custom_target(example_fidls SOURCES examples/TheExample.fidl)
