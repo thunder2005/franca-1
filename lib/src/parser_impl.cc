@@ -13,6 +13,7 @@
 #include "parse_error.hh"
 #include "ast.hh"
 #include "ast_node_impl.hh"
+#include "input_context.hh"
 
 // franca includes:
 #include "franca/logger.hh"
@@ -110,6 +111,12 @@ static void visit_all_dfs( const std::shared_ptr<ast_node_impl_t> &node, ast_vis
 void parser_impl_t::visit_all_dfs( ast_visitor_t &visitor ) const
 {
     ::visit_all_dfs(m_ast->root_node(), visitor);
+}
+
+input_context_t parser_impl_t::input_context() noexcept
+{
+    m_line.update_baseline();
+    return { m_input->name(), m_line.line_nr(), m_line.char_nr() };
 }
 
 log_t parser_impl_t::debug()

@@ -14,6 +14,7 @@ namespace franca {
 class stm_t;
 class log_t;
 class input_line_t;
+class input_context_t;
 class ast_t;
 
 #define DECL_PARSER_STATE_CTR(__class)                                         \
@@ -58,6 +59,7 @@ protected:
     ast_t &ast();
 
 protected:
+    input_context_t input_context() noexcept;
     log_t debug();
     log_t info();
     log_t warn();

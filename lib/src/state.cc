@@ -12,6 +12,7 @@
 #include "stm.hh"
 #include "parser_impl.hh"
 #include "parse_error.hh"
+#include "input_context.hh"
 
 using namespace franca;
 
@@ -87,6 +88,11 @@ void state_t::handle_token()
 ast_t &state_t::ast()
 {
     return m_stm.ast();
+}
+
+input_context_t state_t::input_context() noexcept
+{
+    return m_stm.parser().input_context();
 }
 
 log_t state_t::debug()

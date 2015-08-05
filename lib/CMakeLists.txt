@@ -21,11 +21,13 @@ set(SOURCES
     src/state/typedef.cc
     src/state/interface.cc
     src/state/method.cc
+    src/state/argument.cc
 
     # ast:
     src/ast.cc
     src/ast_node.cc
     src/ast_node_impl.cc
+    src/type_ref.cc
 
     # entities:
     src/entity.cc
@@ -46,6 +48,7 @@ set(HEADERS
     src/parse_error.hh
     src/log.hh
     src/input_line.hh
+    src/input_context.hh
     src/ast_flags.hh
 )
 

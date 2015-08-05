@@ -18,6 +18,7 @@ namespace franca {
 class logger_t;
 class log_t;
 class input_provider_t;
+class input_context_t;
 class stm_t;
 class ast_t;
 class ast_visitor_t;
@@ -44,6 +45,7 @@ public:
     void visit_all_dfs( ast_visitor_t &visitor ) const;
 
 public:
+    input_context_t input_context() noexcept;
     log_t debug();
     log_t info();
     log_t warn();

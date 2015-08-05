@@ -10,6 +10,7 @@
 // local includes:
 #include "ast.hh"
 #include "tokeniser.hh"
+#include "state/argument.hh"
 
 using namespace franca;
 
@@ -59,14 +60,25 @@ void state::method_t::handle_token()
         m_subst = subst_t::expect_in_types;
         break;
 
+    case subst_t::expect_in_types:
+        if ( tkn.is_token("}", true) ) {
+            m_subst = subst_t::expect_out_keyword;
+        } else {
+            enter_substate<argument_t>();
+        }
+        break;
+
     case subst_t::expect_out_open_brace:
         tkn.expect_token("{");
         m_subst = subst_t::expect_out_types;
         break;
 
-    case subst_t::expect_in_types:
     case subst_t::expect_out_types:
-        raise_not_implemented();
+        if ( tkn.is_token("}", true) ) {
+            m_subst = subst_t::expect_close_brace;
+        } else {
+            enter_substate<argument_t>();
+        }
         break;
     }
 }
