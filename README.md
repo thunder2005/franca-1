@@ -68,3 +68,26 @@ Syntax:
 
 Typedefs can be used to create new type names which are simple aliases for
 existing types.
+
+#### interface definition
+Syntax:
+
+    interface <interface's fqn> {
+      [ version { major <number> minor <number> } ]
+      [ <user defined attributes> ]
+      [ <user defined methods> ]
+      [ <user defined broadcasts> ]
+      [ <user defined interface-specific types> ]
+    }
+
+An interface is a not empty set of user-defined attributes, methods, broadcasts
+and interface-specific types. Each interfaces's definition consists of an *interface*
+keyword, followed by an FQN and a body block (*{ ... }*) of this interface.
+
+The body block consists of an optional version number (with major/minor scheme)
+and of one or more definitions of interface elements. The order of the elements
+has been chosen deliberately and cannot be changed: first go all attributes, then
+methods, broadcasts and, finally, interface-specific type definitions.
+
+All definitions are optional, but the interface should contain at least one attribute,
+method or broadcast.
