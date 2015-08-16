@@ -4,17 +4,23 @@
  *                                                                            *
  ******************************************************************************/
 
-// self-include:
-#include "franca/entity/type_collection.hh"
+#pragma once
 
-// local includes:
-#include "entity/type_collection_impl.hh"
+namespace franca {
+namespace entity {
+namespace attr {
 
-DEFINE_FRANCA_ENTITY(type_collection_t, type_collection_impl_t, entity_t)
-
-using namespace franca::entity;
-
-attr::version_t type_collection_t::version() const noexcept
+/*!
+ * \brief Size of an integer type.
+ */
+enum class integer_size_t
 {
-    return impl()->version();
-}
+    int_8,  //!< 8 bit integer.
+    int_16, //!< 16 bit integer.
+    int_32, //!< 32 bit integer.
+    int_64  //!< 64 bit integer.
+};
+
+} // namespace attr
+} // namespace entity
+} // namespace franca

@@ -6,26 +6,37 @@
 
 #pragma once
 
-// parent include:
+// franca includes:
 #include "franca/entity/type.hh"
+
+// std includes:
+#include <cassert>
 
 namespace franca {
 namespace entity {
-
 namespace attr {
-enum class integer_size_t;
-}
 
-class integer_impl_t;
-
-class integer_t final: public type_t
+class named_type_t final
 {
-    DECL_FRANCA_ENTITY(integer_t, integer_impl_t)
+public:
+    named_type_t() = default;
+    named_type_t( const std::string &name, const type_t &type )
+        : m_name(name)
+        , m_type(type)
+    {
+        assert(!name.empty());
+        assert(!type.fqn().empty());
+    }
 
 public:
-    attr::integer_size_t size() const noexcept;
-    bool is_signed() const noexcept;
+    const std::string &name() const noexcept { return m_name; }
+    const type_t &type() const noexcept { return m_type; }
+
+private:
+    std::string m_name;
+    type_t m_type;
 };
 
+} // namespace attr
 } // namespace entity
 } // namespace franca

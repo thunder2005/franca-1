@@ -12,14 +12,14 @@
 
 DEFINE_FRANCA_ENTITY(integer_t, integer_impl_t, type_t)
 
-using namespace franca;
+using namespace franca::entity;
 
-bool entity::integer_t::is_signed() const noexcept
+bool integer_t::is_signed() const noexcept
 {
     return impl()->is_signed();
 }
 
-entity::integer_size_t entity::integer_t::size() const noexcept
+attr::integer_size_t integer_t::size() const noexcept
 {
     return impl()->size();
 }

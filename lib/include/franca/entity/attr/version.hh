@@ -11,6 +11,7 @@
 
 namespace franca {
 namespace entity {
+namespace attr {
 
 class version_t final
 {
@@ -32,5 +33,6 @@ private:
     std::uint32_t m_minor = 0;
 };
 
+} // namespace attr
 } // namespace entity
 } // namespace franca

@@ -59,13 +59,14 @@ set(PUBLIC_HEADERS
     include/franca/ast_node.hh
     include/franca/ast_visitor.hh
     include/franca/entity.hh
-    include/franca/entity/version.hh
     include/franca/entity/package.hh
     include/franca/entity/type_collection.hh
     include/franca/entity/type.hh
     include/franca/entity/integer.hh
-    include/franca/entity/integer_size.hh
     include/franca/entity/typedef.hh
+    include/franca/entity/attr/version.hh
+    include/franca/entity/attr/integer_size.hh
+    include/franca/entity/attr/named_type.hh
 )
 
 add_library(franca SHARED

@@ -24,14 +24,14 @@ static std::map<std::string, std::shared_ptr<entity::type_impl_t> >
         create_predefined_types()
 {
     using namespace entity;
-    return {{"Int8",   integer_impl_t::create(true,  integer_size_t::int_8)},
-            {"UInt8",  integer_impl_t::create(false, integer_size_t::int_8)},
-            {"Int16",  integer_impl_t::create(true,  integer_size_t::int_16)},
-            {"UInt16", integer_impl_t::create(false, integer_size_t::int_16)},
-            {"Int32",  integer_impl_t::create(true,  integer_size_t::int_32)},
-            {"UInt32", integer_impl_t::create(false, integer_size_t::int_32)},
-            {"Int64",  integer_impl_t::create(true,  integer_size_t::int_64)},
-            {"UInt64", integer_impl_t::create(false, integer_size_t::int_64)}};
+    return {{"Int8",   integer_impl_t::create(true,  attr::integer_size_t::int_8)},
+            {"UInt8",  integer_impl_t::create(false, attr::integer_size_t::int_8)},
+            {"Int16",  integer_impl_t::create(true,  attr::integer_size_t::int_16)},
+            {"UInt16", integer_impl_t::create(false, attr::integer_size_t::int_16)},
+            {"Int32",  integer_impl_t::create(true,  attr::integer_size_t::int_32)},
+            {"UInt32", integer_impl_t::create(false, attr::integer_size_t::int_32)},
+            {"Int64",  integer_impl_t::create(true,  attr::integer_size_t::int_64)},
+            {"UInt64", integer_impl_t::create(false, attr::integer_size_t::int_64)}};
 }
 
 ast_t::ast_t( parser_impl_t &parser )
