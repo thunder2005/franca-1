@@ -81,7 +81,7 @@ Syntax:
     }
 
 An interface is a not empty set of user-defined attributes, methods, broadcasts
-and interface-specific types. Each interfaces's definition consists of an *interface*
+and interface-specific types. Each interface's definition consists of an *interface*
 keyword, followed by an FQN and a body block (*{ ... }*) of this interface.
 
 The body block consists of an optional version number (with major/minor scheme)
@@ -90,4 +90,4 @@ has been chosen deliberately and cannot be changed: first go all attributes, the
 methods, broadcasts and, finally, interface-specific type definitions.
 
 All definitions are optional, but the interface should contain at least one attribute,
-method or broadcast.
+method or broadcast. The interface may not consist only of type definitions.

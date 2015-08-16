@@ -131,6 +131,10 @@ void state_t::leave_state() noexcept
 {
     m_transition_occurred = true;
     m_stm.pop_transit();
+
+    if ( m_finaliser ) {
+        m_finaliser();
+    }
 }
 
 void state_t::raise_not_implemented( const char *feature_id ) const

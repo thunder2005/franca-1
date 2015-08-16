@@ -94,7 +94,8 @@ std::shared_ptr<entity::type_impl_t> ast_t::type( const std::string &fqn ) noexc
     do {
         auto node = base_node->subnode_at(fqn);
         if ( node ) {
-            return nullptr; // todo: implement getting the type entity
+            m_parser.error() << "TODO: Implement getting the type entity";
+            return nullptr;
         }
         base_node = base_node->parent();
     } while ( base_node /* == exists */ );

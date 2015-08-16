@@ -8,6 +8,7 @@
 
 // std includes:
 #include <memory>
+#include <functional>
 
 namespace franca {
 
@@ -78,6 +79,14 @@ protected:
         enter_substate(std::make_shared<T>(m_stm));
     }
 
+    template<typename T>
+    void enter_substate( std::function<void(const T&)> finaliser ) noexcept
+    {
+        auto new_state = std::make_shared<T>(m_stm);
+        new_state->set_finaliser(finaliser);
+        enter_substate(new_state);
+    }
+
     void leave_state() noexcept;
 
 protected:
@@ -93,10 +102,19 @@ private:
     void transit( const std::shared_ptr<state_t> &new_state ) noexcept;
     void enter_substate( const std::shared_ptr<state_t> &new_state ) noexcept;
 
+    template<typename T>
+    void set_finaliser( std::function<void(const T&)> finaliser )
+    {
+        m_finaliser = [this, finaliser] {
+            finaliser(*static_cast<T*>(this));
+        };
+    }
+
 private:
     const char *m_name;
     stm_t &m_stm;
     bool m_transition_occurred;
+    std::function<void()> m_finaliser;
 };
 
 } // namespace franca
