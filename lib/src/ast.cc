@@ -100,7 +100,7 @@ std::shared_ptr<entity::type_impl_t> ast_t::type( const std::string &fqn ) noexc
         base_node = base_node->parent();
     } while ( base_node /* == exists */ );
 
-    /* If nothing is fined, then check if it is a predefined (a.k.a. standard)
+    /* If nothing is found, then check if it is a predefined (a.k.a. standard)
      * type, like UInt32 or String. */
     auto it = m_predefined_types.find(fqn);
     if ( it != m_predefined_types.cend() ) {

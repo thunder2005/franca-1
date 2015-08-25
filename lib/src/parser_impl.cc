@@ -58,7 +58,7 @@ bool parser_impl_t::parse() noexcept
         /* For each line in the input call a process_line() function. */
         do {
             std::getline(input, line);
-            if ( input.fail() && !line.empty() )
+            if ( input.fail() && !input.eof() )
                 throw parse_error_t("I/O error.");
             process_line(line.c_str());
         } while ( !input.eof() );

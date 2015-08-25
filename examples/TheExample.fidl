@@ -3,5 +3,5 @@ package franca.dev.example
 typeCollection types {
     version { major 0 minor 1 }
 
-    typedef UInt64 Index
+    typedef Index is UInt64
 }

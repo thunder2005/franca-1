@@ -22,6 +22,12 @@ public:
     void print_usage() const noexcept;
     void dump() const noexcept;
 
+public:
+    const std::vector<std::string> &input_files() const noexcept
+    {
+        return m_input_files;
+    }
+
 private:
     bool verify() const noexcept;
 

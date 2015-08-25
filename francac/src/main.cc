@@ -14,6 +14,7 @@
 
 // local includes:
 #include "config.hh"
+#include "input_provider.hh"
 
 namespace {
 
@@ -36,7 +37,14 @@ int main( int argc, char *argv[] )
         s_config.print_usage();
         return EXIT_FAILURE;
     }
-    s_config.dump();
+
+    s_parser.set_logger(std::make_shared<stdout_logger_t>());
+    s_parser.set_input_provider(
+                std::make_shared<input_provider_t>(s_config.input_files()));
+
+    if ( !s_parser.parse() ) {
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
