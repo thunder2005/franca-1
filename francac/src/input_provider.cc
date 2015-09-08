@@ -10,15 +10,18 @@
 // std includes:
 #include <cassert>
 
-input_provider_t::input_provider_t( const std::vector<std::string> &input_files )
+input_provider_t::input_provider_t( const std::string &filename )
+    : m_filename(filename)
+    , m_stream(filename)
 {
-    assert(!input_files.empty());
-
-    m_filename = input_files.front();
-    m_stream.open(m_filename);
 }
 
-std::string input_provider_t::name() const noexcept
+const std::string &input_provider_t::name() const noexcept
+{
+    return m_filename;
+}
+
+const std::string &input_provider_t::short_name() const noexcept
 {
     return m_filename;
 }

@@ -7,16 +7,15 @@
 #pragma once
 
 // std includes:
-#include <iosfwd>
 #include <memory>
 #include <vector>
 
 namespace franca {
 
-class logger_t;
-class input_provider_t;
-class parser_impl_t;
 class ast_visitor_t;
+class input_factory_t;
+class logger_t;
+class parser_impl_t;
 
 namespace entity {
 class package_t;
@@ -47,11 +46,11 @@ public:
     void set_logger( const std::shared_ptr<logger_t> &logger );
 
     /*!
-     * \brief Set an input provider.
-     * \param input Input provider.
-     * \sa franca::input_provider_t
+     * \brief Set an input factory.
+     * \param input Input factory.
+     * \sa franca::input_factory_t
      */
-    void set_input_provider( const std::shared_ptr<input_provider_t> &input );
+    void set_input_factory( const std::shared_ptr<input_factory_t> &factory );
 
     /*!
      * \brief Parse an input.
@@ -59,12 +58,7 @@ public:
      */
     bool parse() noexcept;
 
-    /*!
-     * \brief Get a list of parsed packages.
-     * \return A list of packages parsed.
-     */
-    std::vector<entity::package_t> packages() const noexcept;
-
+#if 0
     /*!
      * \brief Visit all AST nodes (DFS algorithm).
      * \param visitor AST visitor class.
@@ -73,6 +67,7 @@ public:
      * starts at a root node and uses a depth-first-search approach.
      */
     void visit_all_dfs( ast_visitor_t &visitor ) const;
+#endif
 
 private:
     std::unique_ptr<parser_impl_t> m_impl;

@@ -14,7 +14,7 @@
 
 // local includes:
 #include "config.hh"
-#include "input_provider.hh"
+#include "input_factory.hh"
 
 namespace {
 
@@ -39,8 +39,8 @@ int main( int argc, char *argv[] )
     }
 
     s_parser.set_logger(std::make_shared<stdout_logger_t>());
-    s_parser.set_input_provider(
-                std::make_shared<input_provider_t>(s_config.input_files()));
+    s_parser.set_input_factory(
+                std::make_shared<input_factory_t>(s_config.input_files()));
 
     if ( !s_parser.parse() ) {
         return EXIT_FAILURE;

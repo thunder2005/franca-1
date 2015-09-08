@@ -6,22 +6,19 @@
 
 #pragma once
 
-// local includes:
-#include "input_line.hh"
-
 // std includes:
 #include <memory>
 #include <vector>
+#include <stack>
 
 namespace franca {
 
+class ast_visitor_t;
+class input_context_t;
+class input_factory_t;
 class logger_t;
 class log_t;
-class input_provider_t;
-class input_context_t;
-class stm_t;
-class ast_t;
-class ast_visitor_t;
+class translation_unit_t;
 
 namespace entity {
 class package_impl_t;
@@ -39,28 +36,30 @@ public:
 
 public:
     void set_logger( const std::shared_ptr<logger_t> &logger );
-    void set_input_provider( const std::shared_ptr<input_provider_t> &input );
+    void set_input_factory( const std::shared_ptr<input_factory_t> &factory );
     bool parse() noexcept;
-    std::vector<std::shared_ptr<entity::package_impl_t>> packages() const noexcept;
+
+#if 0
     void visit_all_dfs( ast_visitor_t &visitor ) const;
+#endif
 
 public:
-    input_context_t input_context() noexcept;
+    input_context_t input_context() const noexcept;
     log_t debug();
     log_t info();
     log_t warn();
     log_t error();
-
-private:
-    void process_line( const char *line );
     log_t log();
 
 private:
+    void process_translation( const std::string &input_name );
+    log_t formated_log();
+
+private:
     std::shared_ptr<logger_t> m_logger;
-    std::shared_ptr<input_provider_t> m_input;
-    std::unique_ptr<ast_t> m_ast; //!< Abstract syntax tree.
-    std::unique_ptr<stm_t> m_stm; //!< Parsing state machine.
-    input_line_t m_line;
+    std::shared_ptr<input_factory_t> m_input_factory;
+    std::stack<std::shared_ptr<translation_unit_t>> m_translation_units;
+    std::shared_ptr<translation_unit_t> m_translation_unit;
 };
 
 } // namespace franca

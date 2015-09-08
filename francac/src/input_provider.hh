@@ -16,9 +16,10 @@
 class input_provider_t final: public franca::input_provider_t
 {
 public:
-    explicit input_provider_t( const std::vector<std::string> &input_files );
-    /* virtual */ std::string name() const noexcept;
-    /* virtual */ std::istream &stream() noexcept;
+    explicit input_provider_t( const std::string &filename );
+    /* virtual */ const std::string &name() const noexcept override;
+    /* virtual */ const std::string &short_name() const noexcept override;
+    /* virtual */ std::istream &stream() noexcept override;
 
 private:
     std::string m_filename;

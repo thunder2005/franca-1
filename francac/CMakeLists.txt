@@ -8,6 +8,7 @@ set(SOURCES
     src/main.cc
     src/config.cc
     src/input_provider.cc
+    src/input_factory.cc
 )
 
 add_executable(francac

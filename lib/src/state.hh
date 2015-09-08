@@ -14,7 +14,7 @@ namespace franca {
 
 class stm_t;
 class log_t;
-class input_line_t;
+class input_cursor_t;
 class input_context_t;
 class ast_t;
 
@@ -43,7 +43,7 @@ public:
      */
     const char *name() const noexcept { return m_name; }
 
-    void handle_token( input_line_t &input );
+    void handle_token( input_cursor_t &input_cursor );
     virtual void handle_eof();
 
 public:

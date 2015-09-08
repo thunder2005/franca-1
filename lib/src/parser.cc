@@ -30,9 +30,9 @@ void parser_t::set_logger(const std::shared_ptr<logger_t> &logger )
     m_impl->set_logger(logger);
 }
 
-void parser_t::set_input_provider( const std::shared_ptr<input_provider_t> &input )
+void parser_t::set_input_factory( const std::shared_ptr<input_factory_t> &factory )
 {
-    m_impl->set_input_provider(input);
+    m_impl->set_input_factory(factory);
 }
 
 bool parser_t::parse() noexcept
@@ -40,19 +40,9 @@ bool parser_t::parse() noexcept
     return m_impl->parse();
 }
 
-std::vector<entity::package_t> parser_t::packages() const noexcept
-{
-    const auto package_impls = m_impl->packages();
-    std::vector<entity::package_t> result;
-
-    for ( const auto &package_impl : package_impls ) {
-        result.push_back(package_impl->interface());
-    }
-
-    return result;
-}
-
+#if 0
 void parser_t::visit_all_dfs( ast_visitor_t &visitor ) const
 {
     m_impl->visit_all_dfs(visitor);
 }
+#endif

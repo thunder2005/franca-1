@@ -11,6 +11,7 @@
 #include "log.hh"
 #include "parser_impl.hh"
 #include "ast.hh"
+#include "input_cursor.hh"
 #include "state/package.hh"
 
 using namespace franca;
@@ -26,14 +27,14 @@ stm_t::~stm_t()
 {
 }
 
-void stm_t::handle_input( input_line_t &input )
+void stm_t::handle_input( input_cursor_t &input_cursor )
 {
     /* Make a copy of m_ss.top(). We need it because a token handler can perform
      * a state transit and the current state will be deleted, if not copied. */
     auto state = m_ss.top();
     m_parser.debug() << "State:" << log_quote_t() << state->name() <<
-                        log_quote_t() << input.mutable_data();
-    state->handle_token(input);
+                        log_quote_t() << input_cursor.data();
+    state->handle_token(input_cursor);
 }
 
 void stm_t::handle_eof()

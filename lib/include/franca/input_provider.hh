@@ -17,7 +17,8 @@ namespace franca {
  *
  * This class defines an interface to an input backend. Implementations of
  * specific input backends, e.g. an input from file, should derive from this
- * class. An active backend is set via \ref franca::parser_t::set_input_provider().
+ * class. Specific input providers are created by
+ * \ref franca::input_factory_t::create_input().
  */
 class input_provider_t
 {
@@ -27,14 +28,23 @@ public:
 
 public:
     /*!
-     * \brief Get a name of the provider.
-     * \return A name of the provider.
+     * \brief Get a full name of the provider.
+     * \return A full name of the provider.
      *
      * This method should return a name of this provider. It shall be used for
      * debugging purposes and output. For instance, for a file input backend it
-     * might return a filename.
+     * might return a full filename.
      */
-    virtual std::string name() const noexcept = 0;
+    virtual const std::string &name() const noexcept = 0;
+
+    /*!
+     * \brief Get a short name of the provider.
+     * \return A short name of the provider.
+     *
+     * This is a short version of \ref name(). For example, it may contain just a
+     * filename without a full path.
+     */
+    virtual const std::string &short_name() const noexcept = 0;
 
     /*!
      * \brief Get an associated input stream.

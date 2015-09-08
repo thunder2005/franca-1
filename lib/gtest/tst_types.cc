@@ -53,6 +53,7 @@ TEST_F(tst_type_collection, typedef)
     ASSERT_TRUE(parse(fidl));
 }
 
+#if 0
 TEST_F(tst_type_collection, typedef_sanity_visitor)
 {
     const char fidl[] =
@@ -66,3 +67,4 @@ TEST_F(tst_type_collection, typedef_sanity_visitor)
     test_printing_visitor_t visitor;
     parser().visit_all_dfs(visitor);
 }
+#endif

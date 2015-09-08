@@ -13,7 +13,7 @@
 namespace franca {
 
 class parser_impl_t;
-class input_line_t;
+class input_cursor_t;
 class ast_t;
 class state_t;
 
@@ -27,7 +27,7 @@ public:
     stm_t &operator=( const stm_t & ) = delete;
 
 public:
-    void handle_input( input_line_t &input );
+    void handle_input( input_cursor_t &input_cursor );
     void handle_eof();
 
 private:

@@ -13,6 +13,7 @@
 #include <franca/parser.hh>
 #include <franca/logger.hh>
 #include <franca/input_provider.hh>
+#include <franca/input_factory.hh>
 #include <franca/ast_visitor.hh>
 
 // std includes:
@@ -33,11 +34,26 @@ class test_input_provider_t final: public franca::input_provider_t
 {
 public:
     test_input_provider_t( const char *fidl );
-    /* virtual */ std::string name() const noexcept override;
+    /* virtual */ const std::string &name() const noexcept override;
+    /* virtual */ const std::string &short_name() const noexcept override;
     /* virtual */ std::istream &stream() noexcept override;
 
 private:
     std::istringstream m_stream;
+};
+
+class test_input_factory_t final: public franca::input_factory_t
+{
+public:
+    test_input_factory_t( const char *fidl );
+    /* virtual */ std::vector<std::string> input_names() const noexcept override;
+    /* virtual */ std::unique_ptr<franca::input_provider_t> create_input(
+            const std::string &norm_name ) const noexcept override;
+    /* virtual */ std::string normalise_name(
+            const std::string &name ) const noexcept override;
+
+private:
+    const char *m_fidl;
 };
 
 class test_printing_visitor_t: public franca::ast_visitor_t
@@ -67,7 +83,7 @@ public:
 private:
     parser_t m_parser;
     std::shared_ptr<test_logger_t> m_logger;
-    std::shared_ptr<test_input_provider_t> m_input;
+    std::shared_ptr<test_input_factory_t> m_input_factory;
 };
 
 } // namespace franca

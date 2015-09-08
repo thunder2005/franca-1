@@ -9,6 +9,7 @@ add_subdirectory(gtest)
 set(SOURCES
     src/parser.cc
     src/parser_impl.cc
+    src/translation_unit.cc
 
     # stm:
     src/stm.cc
@@ -47,26 +48,27 @@ set(SOURCES
 set(HEADERS
     src/parse_error.hh
     src/log.hh
-    src/input_line.hh
+    src/input_cursor.hh
     src/input_context.hh
     src/ast_flags.hh
 )
 
 set(PUBLIC_HEADERS
-    include/franca/parser.hh
-    include/franca/logger.hh
-    include/franca/input_provider.hh
     include/franca/ast_node.hh
     include/franca/ast_visitor.hh
-    include/franca/entity.hh
-    include/franca/entity/package.hh
-    include/franca/entity/type_collection.hh
-    include/franca/entity/type.hh
-    include/franca/entity/integer.hh
-    include/franca/entity/typedef.hh
-    include/franca/entity/attr/version.hh
     include/franca/entity/attr/integer_size.hh
     include/franca/entity/attr/named_type.hh
+    include/franca/entity/attr/version.hh
+    include/franca/entity.hh
+    include/franca/entity/integer.hh
+    include/franca/entity/package.hh
+    include/franca/entity/type_collection.hh
+    include/franca/entity/typedef.hh
+    include/franca/entity/type.hh
+    include/franca/input_factory.hh
+    include/franca/input_provider.hh
+    include/franca/logger.hh
+    include/franca/parser.hh
 )
 
 add_library(franca SHARED

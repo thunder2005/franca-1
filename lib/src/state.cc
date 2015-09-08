@@ -13,28 +13,9 @@
 #include "parser_impl.hh"
 #include "parse_error.hh"
 #include "input_context.hh"
+#include "input_cursor.hh"
 
 using namespace franca;
-
-class input_line_updater_t final
-{
-public:
-    input_line_updater_t( input_line_t &input, const char *&local_copy )
-        : m_orig_input(input.mutable_data())
-        , m_local_copy(local_copy)
-    {
-        m_local_copy = m_orig_input;
-    }
-
-    ~input_line_updater_t()
-    {
-        m_orig_input = m_local_copy;
-    }
-
-private:
-    const char *&m_orig_input;
-    const char *&m_local_copy;
-};
 
 state_t::state_t( const char *name, stm_t &stm )
     : m_input(nullptr)
@@ -44,11 +25,11 @@ state_t::state_t( const char *name, stm_t &stm )
 {
 }
 
-void state_t::handle_token( input_line_t &input )
+void state_t::handle_token( input_cursor_t &input_cursor )
 {
     /* Ensure that we update a data pointer in an input line before leaving
      * this function. For the sake of exception safety! */
-    input_line_updater_t updater(input, m_input);
+    input_cursor_updater_t updater(input_cursor, m_input);
 
     /* Here we skip spaces, comments and other irrelevant stuff and go to a
      * token which should be processed. */
