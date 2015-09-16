@@ -9,9 +9,10 @@
 
 // local includes:
 #include "ast.hh"
-#include "tokeniser.hh"
-#include "state/version.hh"
+#include "parse_error.hh"
 #include "state/method.hh"
+#include "state/version.hh"
+#include "tokeniser.hh"
 
 using namespace franca;
 

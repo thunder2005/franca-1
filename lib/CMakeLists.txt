@@ -7,6 +7,11 @@
 add_subdirectory(gtest)
 
 set(SOURCES
+    src/inout.hh
+    src/input_context.hh
+    src/input_cursor.hh
+    src/log.hh
+    src/parse_error.cc
     src/parser.cc
     src/parser_impl.cc
     src/translation_unit.cc
@@ -26,9 +31,10 @@ set(SOURCES
 
     # ast:
     src/ast.cc
+    src/ast_flags.hh
     src/ast_node.cc
     src/ast_node_impl.cc
-    src/type_ref.cc
+    src/named_entity.hh
 
     # entities:
     src/entity.cc
@@ -43,14 +49,11 @@ set(SOURCES
     src/entity/integer_impl.cc
     src/entity/typedef.cc
     src/entity/typedef_impl.cc
-)
+    src/entity/method.cc
+    src/entity/method_impl.cc
 
-set(HEADERS
-    src/parse_error.hh
-    src/log.hh
-    src/input_cursor.hh
-    src/input_context.hh
-    src/ast_flags.hh
+    # algo:
+    src/algo/test_if_all.hh
 )
 
 set(PUBLIC_HEADERS
@@ -61,6 +64,7 @@ set(PUBLIC_HEADERS
     include/franca/entity/attr/version.hh
     include/franca/entity.hh
     include/franca/entity/integer.hh
+    include/franca/entity/method.hh
     include/franca/entity/package.hh
     include/franca/entity/type_collection.hh
     include/franca/entity/typedef.hh
@@ -73,7 +77,6 @@ set(PUBLIC_HEADERS
 
 add_library(franca SHARED
     ${SOURCES}
-    ${HEADERS}
     ${PUBLIC_HEADERS}
 )
 

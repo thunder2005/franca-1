@@ -22,3 +22,21 @@ TEST_F(tst_interface, with_one_method)
             "                    Int64 b}out\n\t{Int64 c}}}\n";
     ASSERT_TRUE(parse(fidl));
 }
+
+TEST_F(tst_interface, duplicate_args_a)
+{
+    const char fidl[] =
+            "package test.interfaces\n"
+            "interface Summator  { \n"
+            "    method Add { in{ Int64 a Int64 a } out { Int64 c } } }\n";
+    ASSERT_FALSE(parse(fidl));
+}
+
+TEST_F(tst_interface, duplicate_args_b)
+{
+    const char fidl[] =
+            "package test.interfaces\n"
+            "interface Summator  { \n"
+            "    method Add { in{ Int64 a Int64 b } out { Int64 b } } }\n";
+    ASSERT_FALSE(parse(fidl));
+}

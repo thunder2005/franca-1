@@ -79,21 +79,18 @@ protected:
         enter_substate(std::make_shared<T>(m_stm));
     }
 
-    template<typename T>
-    void enter_substate( std::function<void(const T&)> finaliser ) noexcept
-    {
-        auto new_state = std::make_shared<T>(m_stm);
-        new_state->set_finaliser(finaliser);
-        enter_substate(new_state);
-    }
+//    template<typename T>
+//    void enter_substate( std::function<void(const T&)> finaliser ) noexcept
+//    {
+//        auto new_state = std::make_shared<T>(m_stm);
+//        new_state->set_finaliser(finaliser);
+//        enter_substate(new_state);
+//    }
 
-    void leave_state() noexcept;
+    void leave_state();
 
 protected:
-    void raise_not_implemented( const char *feature_id = nullptr ) const;
-    void raise_unexpected_eof( const char *what_expected ) const;
-    void raise_type_exists( const char *tname ) const;
-    void raise_type_not_found( const char *tname ) const;
+
 
 protected:
     const char *m_input;

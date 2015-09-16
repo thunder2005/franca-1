@@ -8,9 +8,10 @@
 #include "typedef.hh"
 
 // local includes:
-#include "tokeniser.hh"
 #include "ast.hh"
 #include "entity/typedef_impl.hh"
+#include "parse_error.hh"
+#include "tokeniser.hh"
 
 using namespace franca;
 

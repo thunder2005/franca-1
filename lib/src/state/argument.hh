@@ -9,10 +9,12 @@
 // parent include:
 #include "state.hh"
 
-// local includes:
-#include "type_ref.hh"
-
 namespace franca {
+
+namespace entity {
+class type_impl_t;
+} // namespace entity
+
 namespace state {
 
 class argument_t final: public state_t
@@ -26,8 +28,11 @@ public:
     /* virtual */ void handle_eof() override;
 
 private:
-    type_ref_t m_type_ref;
-    std::string m_argument_name;
+    void finalise_argument( const std::string &name );
+
+private:
+    std::string m_given_typename;
+    std::shared_ptr<entity::type_impl_t> m_type;
 };
 
 } // namespace state

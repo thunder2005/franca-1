@@ -15,6 +15,7 @@ class integer_t;
 class package_t;
 class type_collection_t;
 class typedef_t;
+class method_t;
 }
 
 class ast_visitor_t
@@ -29,6 +30,7 @@ public:
     virtual void visit( const entity::type_collection_t & /* tc */ ) {}
     virtual void visit( const entity::integer_t & /* type */ ) {}
     virtual void visit( const entity::typedef_t & /* type */ ) {}
+    virtual void visit( const entity::method_t & /* method */ ) {}
 };
 
 } // namespace franca

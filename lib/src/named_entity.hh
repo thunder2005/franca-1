@@ -6,32 +6,30 @@
 
 #pragma once
 
-// local includes:
-#include "input_context.hh"
-
 // std includes:
 #include <memory>
 
 namespace franca {
 
-class ast_node_impl_t;
+class entity_impl_t;
 
-class type_ref_t final
+class named_entity_t final
 {
 public:
-    type_ref_t() = default;
-    type_ref_t( const std::string &tname,
-                const std::shared_ptr<ast_node_impl_t> &base_ast_node,
-                const input_context_t &input_context ) noexcept;
-    ~type_ref_t();
+    named_entity_t( const std::string &name,
+                    const std::shared_ptr<entity_impl_t> &entity ) noexcept
+        : m_name(name)
+        , m_entity(entity)
+    {
+    }
 
 public:
-    const std::string &tname() const noexcept { return m_tname; }
+    const std::string &name() const noexcept { return m_name; }
+    const std::shared_ptr<entity_impl_t> &entity() const noexcept { return m_entity; }
 
 private:
-    std::string m_tname;
-    std::shared_ptr<ast_node_impl_t> m_base_ast_node;
-    input_context_t m_input_context;
+    std::string m_name;
+    std::shared_ptr<entity_impl_t> m_entity;
 };
 
 } // namespace franca

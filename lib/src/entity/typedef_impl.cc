@@ -21,7 +21,6 @@ std::shared_ptr<typedef_impl_t> typedef_impl_t::create(
     return std::make_shared<typedef_impl_t>(private_ctr(), base_type);
 }
 
-
 typedef_impl_t::typedef_impl_t( private_ctr, const std::shared_ptr<type_impl_t> &base_type )
     : m_base_type(base_type)
 {

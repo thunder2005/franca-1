@@ -6,20 +6,29 @@
 
 #pragma once
 
+// parent include:
+#include "franca/entity.hh"
+
 // std includes:
-#include <stdexcept>
+#include <vector>
 
 namespace franca {
+namespace entity {
 
-class parse_error_t: public std::runtime_error
+namespace attr {
+class named_type_t;
+}
+
+class method_impl_t;
+
+class method_t final: public entity_t
 {
-    using runtime_error::runtime_error;
+    DECL_FRANCA_ENTITY(method_t, method_impl_t)
+
+public:
+    std::vector<attr::named_type_t> in_args() const noexcept;
+    std::vector<attr::named_type_t> out_args() const noexcept;
 };
 
-void raise_not_implemented( const char *feature_id = nullptr );
-void raise_unexpected_eof( const char *what_expected );
-void raise_type_exists( const char *tname );
-void raise_type_not_found( const char *tname );
-void raise_arg_name_already_used( const char *aname );
-
+} // namespace entity
 } // namespace franca

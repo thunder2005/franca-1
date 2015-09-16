@@ -9,8 +9,13 @@
 
 // local includes:
 #include "ast.hh"
-#include "tokeniser.hh"
+#include "ast_node_impl.hh"
+#include "entity_impl.hh"
+#include "entity/type_impl.hh"
 #include "log.hh"
+#include "named_entity.hh"
+#include "parse_error.hh"
+#include "tokeniser.hh"
 
 using namespace franca;
 
@@ -20,17 +25,23 @@ void state::argument_t::handle_token()
 
     switch ( m_subst ) {
     case subst_t::expect_typename:
-        m_type_ref = { tkn.read_fqn("A type of an argument is expected."),
-                       ast().top_node(), input_context() };
+        m_given_typename = tkn.read_fqn("A type of an argument is expected.");
+        m_type = ast().existing_type(m_given_typename);
         m_subst = subst_t::expect_argument_name;
         break;
 
     case subst_t::expect_argument_name:
-        m_argument_name = tkn.read_typename("A name of an argument is expected.");
-        debug() << "Argument:" << m_argument_name << "of type" << m_type_ref.tname();
+        finalise_argument(
+                    tkn.read_typename("A name of an argument is expected."));
         leave_state();
         break;
     }
+}
+
+void state::argument_t::finalise_argument( const std::string &name )
+{
+    debug() << "Argument:" << name << "of type" << m_given_typename;
+    ast().top_entity()->apply_argument({name, m_type});
 }
 
 void state::argument_t::handle_eof()

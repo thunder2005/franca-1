@@ -37,6 +37,7 @@ namespace franca {
 
 class ast_node_impl_t;
 class ast_visitor_t;
+class named_entity_t;
 
 class entity_impl_t
 {
@@ -65,6 +66,8 @@ public:
 
 public:
     virtual void apply_version( std::uint32_t major, std::uint32_t minor );
+    virtual void apply_argument( const named_entity_t &arg );
+
     virtual void accept_visitor( ast_visitor_t &visitor ) = 0;
 
 protected:

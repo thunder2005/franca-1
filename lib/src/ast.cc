@@ -11,6 +11,7 @@
 #include "parser_impl.hh"
 #include "log.hh"
 #include "ast_node_impl.hh"
+#include "parse_error.hh"
 #include "entity/package_impl.hh"
 #include "entity/type_collection_impl.hh"
 #include "entity/integer_impl.hh"
@@ -110,6 +111,15 @@ std::shared_ptr<entity::type_impl_t> ast_t::type( const std::string &fqn ) noexc
     return nullptr;
 }
 
+std::shared_ptr<entity::type_impl_t> ast_t::existing_type( const std::string &fqn )
+{
+    auto typeref = type(fqn);
+    if ( !typeref ) {
+        raise_type_not_found(fqn.c_str());
+    }
+    return typeref;
+}
+
 std::shared_ptr<ast_node_impl_t>
         ast_t::node_at( const std::string &fqn, ast_flags_t flags ) noexcept
 {
@@ -124,9 +134,14 @@ std::shared_ptr<ast_node_impl_t>
     return node;
 }
 
-std::shared_ptr<ast_node_impl_t> ast_t::top_node() const
+const std::shared_ptr<ast_node_impl_t> &ast_t::top_node() const
 {
     return m_node_stack.top();
+}
+
+const std::shared_ptr<entity_impl_t> &ast_t::top_entity() const
+{
+    return top_node()->entity();
 }
 
 void ast_t::pop_node()

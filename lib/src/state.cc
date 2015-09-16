@@ -108,7 +108,7 @@ void state_t::enter_substate( const std::shared_ptr<state_t> &new_state ) noexce
     m_stm.push_transit(new_state);
 }
 
-void state_t::leave_state() noexcept
+void state_t::leave_state()
 {
     m_transition_occurred = true;
     m_stm.pop_transit();
@@ -116,33 +116,4 @@ void state_t::leave_state() noexcept
     if ( m_finaliser ) {
         m_finaliser();
     }
-}
-
-void state_t::raise_not_implemented( const char *feature_id ) const
-{
-    if ( feature_id ) {
-        throw parse_error_t(std::string("Internal error: feature not implemented: ") +
-                            feature_id + ".");
-    } else {
-        throw parse_error_t("Internal error: feature not implemented.");
-    }
-}
-
-void state_t::raise_unexpected_eof( const char *what_expected ) const
-{
-    if ( what_expected ) {
-        throw parse_error_t(std::string("Got EOF. ") + what_expected);
-    } else {
-        throw parse_error_t("Unexpected EOF.");
-    }
-}
-
-void state_t::raise_type_exists( const char *tname ) const
-{
-    throw parse_error_t(std::string("Type '") + tname + "` already exists.");
-}
-
-void state_t::raise_type_not_found( const char *tname ) const
-{
-    throw parse_error_t(std::string("Type '") + tname + "` is not found.");
 }

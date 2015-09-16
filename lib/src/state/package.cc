@@ -10,6 +10,7 @@
 // local includes:
 #include "ast.hh"
 #include "tokeniser.hh"
+#include "parse_error.hh"
 #include "state/types_or_iface.hh"
 
 static const char s_package_name_expected_msg[] = "A package name is expected.";

@@ -8,11 +8,12 @@
 #include "version.hh"
 
 // local includes:
-#include "tokeniser.hh"
-#include "log.hh"
 #include "ast.hh"
 #include "ast_node_impl.hh"
 #include "entity_impl.hh"
+#include "log.hh"
+#include "parse_error.hh"
+#include "tokeniser.hh"
 
 using namespace franca;
 

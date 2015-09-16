@@ -19,6 +19,7 @@ namespace franca {
 
 class parser_impl_t;
 class ast_node_impl_t;
+class entity_impl_t;
 
 namespace entity {
 class package_impl_t;
@@ -47,7 +48,9 @@ public:
     void start_interface( const std::string &fqn );
 
     void add_type( const std::string &fqn, const std::shared_ptr<entity::type_impl_t> &type );
-    std::shared_ptr<entity::type_impl_t> type(const std::string &fqn ) noexcept;
+    std::shared_ptr<entity::type_impl_t> type( const std::string &fqn ) noexcept;
+
+    std::shared_ptr<entity::type_impl_t> existing_type( const std::string &fqn );
 
 public:
     /*!
@@ -66,9 +69,15 @@ public:
 
     /*!
      * \brief Get a current top node.
-     * \return Current FQN node.
+     * \return Current AST node.
      */
-    std::shared_ptr<ast_node_impl_t> top_node() const;
+    const std::shared_ptr<ast_node_impl_t> &top_node() const;
+
+    /*!
+     * \brief Get an entity of a current top node.
+     * \return Entity associated with the top node.
+     */
+    const std::shared_ptr<entity_impl_t> &top_entity() const;
 
     /*!
      * \brief Restore a previous top node.

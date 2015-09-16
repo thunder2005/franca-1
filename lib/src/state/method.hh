@@ -9,8 +9,13 @@
 // parent include:
 #include "state.hh"
 
+// std includes:
+#include <vector>
+
 namespace franca {
 namespace state {
+
+class argument_t;
 
 class method_t final: public state_t
 {
