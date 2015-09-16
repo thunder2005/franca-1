@@ -6,6 +6,9 @@
 
 #pragma once
 
+// local includes:
+#include <loggable.hh>
+
 // std includes:
 #include <memory>
 #include <functional>
@@ -35,6 +38,7 @@ class ast_t;
  * This is a base class for all parser's states.
  */
 class state_t
+        : public loggable_t
 {
 public:
     /*!
@@ -61,10 +65,6 @@ protected:
 
 protected:
     input_context_t input_context() noexcept;
-    log_t debug();
-    log_t info();
-    log_t warn();
-    log_t error();
 
 protected:
     template<typename T>

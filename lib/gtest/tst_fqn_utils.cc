@@ -75,7 +75,8 @@ TEST(fqn, circular_rebase_node)
 TEST(fqn, basic_ast)
 {
     parser_impl_t parser;
-    ast_t ast(parser);
+    loggable_t loggable(parser);
+    ast_t ast(loggable);
 
     auto node = ast.node_at("this.is.node", ast_flag_t::create_recursive);
     ASSERT_EQ(ast.top_node(), node->parent()->parent()->parent());

@@ -6,14 +6,15 @@
 
 #pragma once
 
+// local includes:
+#include "loggable.hh"
+#include "ast_flags.hh"
+
 // std includes:
 #include <string>
 #include <memory>
 #include <stack>
 #include <map>
-
-// local includes:
-#include "ast_flags.hh"
 
 namespace franca {
 
@@ -30,9 +31,10 @@ class type_impl_t;
  * \brief Abstract syntax tree.
  */
 class ast_t final
+        : public loggable_t
 {
 public:
-    explicit ast_t( parser_impl_t &parser );
+    explicit ast_t( const loggable_t &loggable );
     ast_t( const ast_t & ) = delete;
     ast_t &operator=( const ast_t & ) = delete;
 
@@ -91,7 +93,6 @@ public:
     std::shared_ptr<ast_node_impl_t> root_node() const;
 
 private:
-    parser_impl_t &m_parser;
     std::shared_ptr<ast_node_impl_t> m_root;
     std::stack<std::shared_ptr<ast_node_impl_t>> m_node_stack;
 

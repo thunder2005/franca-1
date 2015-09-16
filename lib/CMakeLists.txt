@@ -10,6 +10,8 @@ set(SOURCES
     src/inout.hh
     src/input_context.hh
     src/input_cursor.hh
+    src/loggable.cc
+    src/loggable_impl.hh
     src/log.hh
     src/parse_error.cc
     src/parser.cc

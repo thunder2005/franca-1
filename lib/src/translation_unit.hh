@@ -6,6 +6,9 @@
 
 #pragma once
 
+// local includes:
+#include "loggable.hh"
+
 // std includes:
 #include <memory>
 #include <iosfwd>
@@ -19,7 +22,13 @@ class log_t;
 class parser_impl_t;
 class stm_t;
 
+/*!
+ * \brief Translation unit.
+ *
+ * This class represents a translation unit, i.e. a single *.fidl file.
+ */
 class translation_unit_t final
+        : public loggable_t
 {
 public:
     translation_unit_t(

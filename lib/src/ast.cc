@@ -35,8 +35,8 @@ static std::map<std::string, std::shared_ptr<entity::type_impl_t> >
             {"UInt64", integer_impl_t::create(false, attr::integer_size_t::int_64)}};
 }
 
-ast_t::ast_t( parser_impl_t &parser )
-    : m_parser(parser)
+ast_t::ast_t( const loggable_t &loggable )
+    : loggable_t(loggable)
     , m_root(ast_node_impl_t::create_root())
     , m_predefined_types(create_predefined_types())
 {
@@ -46,7 +46,7 @@ ast_t::ast_t( parser_impl_t &parser )
 void ast_t::set_active_package( const std::string &fqn )
 {
     assert(!m_active_package);
-    m_parser.debug() << "Package:" << log_quote_t() << fqn;
+    debug() << "Package:" << log_quote_t() << fqn;
 
     m_active_package = entity::package_impl_t::create();
     auto node = node_at(fqn, ast_flag_t::create_recursive |
@@ -58,7 +58,7 @@ void ast_t::set_active_package( const std::string &fqn )
 
 void ast_t::start_type_collection( const std::string &fqn )
 {
-    m_parser.debug() << "TypeCollection:" << log_quote_t() << fqn;
+    debug() << "TypeCollection:" << log_quote_t() << fqn;
 
     auto type_collection = entity::type_collection_impl_t::create();
     auto node = node_at(fqn, ast_flag_t::create_recursive |
@@ -71,13 +71,13 @@ void ast_t::start_type_collection( const std::string &fqn )
 
 void ast_t::start_interface( const std::string &fqn )
 {
-    m_parser.debug() << "Interface:" << log_quote_t() << fqn;
+    debug() << "Interface:" << log_quote_t() << fqn;
     /* todo: create interface entity */
 }
 
 void ast_t::add_type( const std::string &fqn, const std::shared_ptr<entity::type_impl_t> &type )
 {
-    m_parser.debug() << "AddType:" << log_quote_t() << fqn;
+    debug() << "AddType:" << log_quote_t() << fqn;
 
     const auto flags = ast_flag_t::create | ast_flag_t::relative | ast_flag_t::free;
     auto node = node_at(fqn, flags);
@@ -95,7 +95,7 @@ std::shared_ptr<entity::type_impl_t> ast_t::type( const std::string &fqn ) noexc
     do {
         auto node = base_node->subnode_at(fqn);
         if ( node ) {
-            m_parser.error() << "TODO: Implement getting the type entity";
+            error() << "TODO: Implement getting the type entity";
             return nullptr;
         }
         base_node = base_node->parent();

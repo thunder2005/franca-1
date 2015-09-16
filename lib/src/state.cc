@@ -8,17 +8,18 @@
 #include "state.hh"
 
 // local includes:
-#include "log.hh"
-#include "stm.hh"
-#include "parser_impl.hh"
-#include "parse_error.hh"
 #include "input_context.hh"
 #include "input_cursor.hh"
+#include "log.hh"
+#include "parse_error.hh"
+#include "stm.hh"
+#include "translation_unit.hh"
 
 using namespace franca;
 
 state_t::state_t( const char *name, stm_t &stm )
-    : m_input(nullptr)
+    : loggable_t(stm)
+    , m_input(nullptr)
     , m_name(name)
     , m_stm(stm)
     , m_transition_occurred(false)
@@ -73,27 +74,7 @@ ast_t &state_t::ast()
 
 input_context_t state_t::input_context() noexcept
 {
-    return m_stm.parser().input_context();
-}
-
-log_t state_t::debug()
-{
-    return m_stm.parser().debug();
-}
-
-log_t state_t::info()
-{
-    return m_stm.parser().info();
-}
-
-log_t state_t::warn()
-{
-    return m_stm.parser().warn();
-}
-
-log_t state_t::error()
-{
-    return m_stm.parser().error();
+    return m_stm.tu().input_context();
 }
 
 void state_t::transit( const std::shared_ptr<state_t> &new_state ) noexcept

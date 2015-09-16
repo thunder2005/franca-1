@@ -6,6 +6,9 @@
 
 #pragma once
 
+// local includes:
+#include "loggable_impl.hh"
+
 // std includes:
 #include <memory>
 #include <vector>
@@ -25,6 +28,7 @@ class package_impl_t;
 } // namespace entity
 
 class parser_impl_t final
+        : public loggable_impl_t
 {
 public:
     parser_impl_t();
@@ -45,15 +49,18 @@ public:
 
 public:
     input_context_t input_context() const noexcept;
-    log_t debug();
-    log_t info();
-    log_t warn();
-    log_t error();
-    log_t log();
+
+    /* virtual */ log_t debug() const noexcept override;
+    /* virtual */ log_t info() const noexcept override;
+    /* virtual */ log_t warn() const noexcept override;
+    /* virtual */ log_t error() const noexcept override;
+
+    log_t raw_log() const noexcept;
+    log_t formated_log() const noexcept;
 
 private:
     void process_translation( const std::string &input_name );
-    log_t formated_log();
+
 
 private:
     std::shared_ptr<logger_t> m_logger;

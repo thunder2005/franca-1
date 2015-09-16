@@ -106,36 +106,36 @@ input_context_t parser_impl_t::input_context() const noexcept
     }
 }
 
-log_t parser_impl_t::debug()
+log_t parser_impl_t::debug() const noexcept
 {
     return formated_log() << "Debug:";
 }
 
-log_t parser_impl_t::info()
+log_t parser_impl_t::info() const noexcept
 {
     return formated_log() << "Info:";
 }
 
-log_t parser_impl_t::warn()
+log_t parser_impl_t::warn() const noexcept
 {
     return formated_log() << "Warning:";
 }
 
-log_t parser_impl_t::error()
+log_t parser_impl_t::error() const noexcept
 {
     return formated_log() << "Error:";
 }
 
-log_t parser_impl_t::log()
+log_t parser_impl_t::raw_log() const noexcept
 {
     return log_t(m_logger.get());
 }
 
-log_t parser_impl_t::formated_log()
+log_t parser_impl_t::formated_log() const noexcept
 {
     if ( m_translation_unit ) {
         return m_translation_unit->formated_log();
     } else {
-        return log();
+        return raw_log();
     }
 }
